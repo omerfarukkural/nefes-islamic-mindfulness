@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Kullanıcı yalnızca kendi verilerine erişebilir
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Mood kayıtları
+      match /moods/{moodId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // Meditasyon oturumları
+      match /meditations/{sessionId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // Chat geçmişi
+      match /chats/{chatId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // Ayarlar
+      match /settings/{settingId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Genel içerik (dualar, meditasyon rehberleri) - sadece okunabilir
+    match /content/{document=**} {
+      allow read: if request.auth != null;
+      allow write: if false; // Sadece admin panelinden yazılır
+    }
+
+    // Geri bildirim
+    match /feedback/{feedbackId} {
+      allow create: if request.auth != null;
+      allow read: if false; // Sadece admin okur
+    }
+  }
+}
