@@ -1,154 +1,86 @@
-# 🚀 Antigravity / AI Coding Agent - Tam Talimat
+# Nefes App - Antigravity AI Agent Talimatları
 
-## Proje Bilgileri
-- **Proje:** Nefes - AI Destekli İslami Mindfulness & Mental Sağlık Uygulaması
-- **Repo:** https://github.com/omerfarukkural/nefes-islamic-mindfulness
-- **Branch:** main
-- **Dil:** Dart/Flutter
-- **Mimari:** Feature-First Clean Architecture + Riverpod
+## Kimİsin
+Sen Nefes App'in otomatik geliştiricisisin. Görevin Flutter + Dart kodunu İslami mindfulness uygulaması için geliştirmek, test etmek ve iyileştirmektir.
 
----
+## Mimari Kurallar
+- State Management: Flutter Riverpod (flutter_riverpod ^2.5.1)
+- Navigation: GoRouter
+- Local DB: Hive (offline-first)
+- Backend: Firebase (Auth + Firestore)
+- AI: Google Gemini API (google_generative_ai paketi)
+- Design: Material 3, koyu tema (#0D1B2A arka plan, #4CAF82 vurgu)
 
-## ÖNCELİK SIRASI (Bunu takip et)
+## İslami İçerik Kuralları
+- Namaz vakitlerinde oyalayan içerik önerme
+- Cuma günleri özel hatırlatmalar
+- Ramazan, Kadir gecesi gibi özel zamanlarda özel içerik
+- Tüm dualar Türkçe açıklamalı, Arapça orijinal metnini koru
+- Hadis ve ayetler her zaman kaynak gösterilerek
 
-### Görev 1: Android Build Yapılandırması
+## Para Kazanma Kuralları
+- Premium kullanıcılara ASLA reklam gösterme
+- Paywall: lib/features/paywall/paywall_screen.dart
+- IAP: lib/core/services/purchase_service.dart
+- AdMob: lib/core/services/admob_service.dart
+
+## Yapılabilecek Görevler
+
+### GOREV-1: Meditasyon Ekranı Tamamla
+- Dosya: lib/features/meditation/meditation_screen.dart
+- Görev: Solunum animasyonu, süre sayıcı, ses oynatma
+- Test: 3 meditasyon sonrası interstitial reklam göster
+
+### GOREV-2: Zikir Ekranı
+- Dosya: lib/features/dhikr/dhikr_screen.dart
+- Görev: Sayıcı, titreşim, Hive'a kaydet, hedef belirleme
+
+### GOREV-3: Ruh Hali Takibi
+- Dosya: lib/features/mood/mood_screen.dart
+- Görev: Emoji seçici, günlük notlar, haftalık grafik
+
+### GOREV-4: AI Sohbet
+- Dosya: lib/features/chat/chat_screen.dart
+- Görev: Gemini API entegrasyonu, İslami context prompt
+- System prompt: 'İslami psikoloji uzmanı bir danismansin...'
+
+### GOREV-5: Onboarding
+- Dosya: lib/features/onboarding/onboarding_screen.dart  
+- Görev: 4 adim, izin isteme, ilk kullanici verisi toplama
+
+### GOREV-6: Play Store Hazırlığı
+- android/app/build.gradle: targetSdk 35 (zaten ayarlı)
+- Keystore oluştur (docs/PLAY_STORE_CHECKLIST.md bak)
+- flutter build appbundle --release
+
+## Dosya Yapısı
 ```
-android/ klasörünü oluştur:
-- build.gradle (project-level): classpath, repositories
-- app/build.gradle:
-  - minSdkVersion: 21
-  - targetSdkVersion: 35
-  - compileSdkVersion: 35
-  - versionCode: 1
-  - versionName: "1.0.0"
-  - multiDexEnabled: true
-  - proguard-rules.pro (release shrink)
-- app/src/main/AndroidManifest.xml:
-  - INTERNET izni
-  - RECEIVE_BOOT_COMPLETED (bildirimler için)
-  - application label: Nefes
-  - icon placeholder
-- gradle.properties: android.useAndroidX=true, kotlin.code.style=official
-- settings.gradle: plugins DSL
-- local.properties: placeholder
-```
-
-### Görev 2: Hive TypeAdapter'ları
-```
-lib/core/models/ altında:
-- mood_entry.dart → @HiveType(typeId: 0)
-  - id (String), value (int 1-5), note (String?), createdAt (DateTime)
-- meditation_session.dart → @HiveType(typeId: 1)
-  - id, type (String), durationSeconds (int), completedAt (DateTime)
-- chat_message.dart → @HiveType(typeId: 2)
-  - id, content (String), isUser (bool), timestamp (DateTime)
-
-lib/core/services/offline_storage_service.dart:
-- initHive(): Adapter register + box open
-- CRUD: saveMood, getMoods, deleteMood
-- CRUD: saveSession, getSessions
-- CRUD: saveChatMessage, getChatHistory
-- getStats(): toplam dakika, streak, oturum sayısı
-```
-
-### Görev 3: Tüm Ekranları Çalışır Hale Getir
-```
-lib/features/home/presentation/home_screen.dart:
-- Selam mesajı (Günaydın/İyi akşamlar + isim)
-- Günlük ayet kartı
-- Ruh hali giriş butonu
-- Hızlı erişim: Meditasyon, Dua, Chat
-- İstatistik kartları (gerçek Hive verisi)
-
-lib/features/mood/presentation/mood_screen.dart:
-- 5 emoji seçimi (çok kötü → çok iyi)
-- Not ekleme alanı
-- Son 7 gün chart (fl_chart)
-- Kaydet → Hive
-
-lib/features/meditation/presentation/meditation_screen.dart:
-- Meditasyon türleri listesi (nefes, zikir, tefekkür, şükür)
-- Zamanlayıcı (CountdownTimer)
-- Başlat/Duraklat/Bitir kontrolleri
-- Tamamlandığında → Hive'a kaydet
-- Ambient ses (opsiyonel, just_audio)
-
-lib/features/chat/presentation/chat_screen.dart:
-- Mesaj baloncukları (kullanıcı: sağ/mavi, AI: sol/yeşil)
-- Öneri chip'leri: "Bugün stresli hissediyorum", "Dua öner", "Kur'an ayeti"
-- Typing indicator
-- Gemini API entegrasyonu
-- Kriz algılama: intihar/zarar kelimeleri → 182 uyarısı
-
-lib/features/dua/presentation/dua_screen.dart:
-- Kategoriler: Sabah, Akşam, Yemek, Yolculuk, Sınav
-- Arapça + Türkçe metin
-- Favori ekleme
-- Paylaşma butonu
-
-lib/features/settings/presentation/settings_screen.dart:
-- Tema değiştir (dark/light)
-- Bildirim ayarları
-- Dil seçimi
-- Hesap (giriş/çıkış)
-- Geri bildirim gönder
-- Hakkında
-
-lib/features/onboarding/presentation/onboarding_screen.dart:
-- 3-4 sayfa PageView
-- Lottie animasyonları
-- "Başla" butonu → Home'a yönlendir
-- SharedPreferences ile "gösterildi" flag
+lib/
+├── main.dart              # Firebase + AdMob + IAP init
+├── app/
+│   ├── app.dart           # MaterialApp
+│   └── router.dart        # GoRouter
+├── core/
+│   ├── services/
+│   │   ├── admob_service.dart
+│   │   ├── purchase_service.dart
+│   │   ├── ai_service.dart
+│   │   └── notification_service.dart
+│   └── theme/
+├── features/
+│   ├── home/
+│   ├── meditation/
+│   ├── dhikr/
+│   ├── mood/
+│   ├── chat/
+│   ├── dua/
+│   ├── settings/
+│   ├── onboarding/
+│   └── paywall/           # paywall_screen.dart HAZIR
 ```
 
-### Görev 4: Router & Navigation
-```
-lib/core/router/app_router.dart:
-- GoRouter ile tüm route'ları tanımla
-- BottomNavigationBar: Home, Meditate, Chat, Dua, Settings
-- Deep link desteği
-```
-
-### Görev 5: Theme & Styling
-```
-lib/core/theme/app_theme.dart:
-- Light theme: yeşil tonları, krem arka plan
-- Dark theme: koyu yeşil, siyah arka plan
-- Typography: Amiri (Arapça), Roboto (genel)
-- Material 3 color scheme
-- Custom widget temaları (card, button, input)
-```
-
-### Görev 6: Test Suite
-```
-test/unit/:
-- offline_storage_service_test.dart
-- ai_chat_service_test.dart
-
-test/widget/:
-- home_screen_test.dart
-- mood_screen_test.dart
-- meditation_screen_test.dart
-
-Mockito kullan, min %70 coverage hedefle.
-```
-
----
-
-## KODLAMA STANDARTLARI
-
-1. **State Management:** Riverpod (flutter_riverpod + riverpod_annotation)
-2. **Const constructors:** Her yerde kullan
-3. **Dil:** UI → Türkçe, Kod → İngilizce
-4. **Dartdoc:** Her public method/class için
-5. **Error handling:** try-catch zorunlu, debugPrint kullan
-6. **API Keys:** Asla koda gömme, --dart-define kullan
-7. **print() YASAK:** debugPrint() kullan
-8. **setState YASAK:** Riverpod provider kullan
-
-## TEKNİK GEREKSİNİMLER
-- Flutter: 3.24+
-- Dart: 3.2+
-- Android Min SDK: 21
-- Target SDK: 35
-- Compile SDK: 35
+## Branch Stratejisi
+- `main`: Production kodu
+- `develop`: Aktif geliştirme
+- `feature/XXX`: Yeni özellikler
+- `hotfix/XXX`: Acil düzeltmeler
