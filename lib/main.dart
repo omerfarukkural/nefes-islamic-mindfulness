@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,15 +18,17 @@ void main() async {
   await Hive.initFlutter();
 
   // Bildirimler
-  await NotificationService.initialize();
+  if (!kIsWeb) {
+    await NotificationService.initialize();
 
-  // AdMob (Reklam)
-  await AdMobService.initialize();
-  AdMobService.loadInterstitialAd();
-  AdMobService.loadRewardedAd();
+    // AdMob (Reklam)
+    await AdMobService.initialize();
+    AdMobService.loadInterstitialAd();
+    AdMobService.loadRewardedAd();
 
-  // In-App Purchase
-  await PurchaseService.initialize();
+    // In-App Purchase
+    await PurchaseService.initialize();
+  }
 
   runApp(
     const ProviderScope(

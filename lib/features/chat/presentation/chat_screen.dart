@@ -19,8 +19,10 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    // TODO: Load API key from secure storage
-    // _chatService.initialize('YOUR_GEMINI_API_KEY');
+    const apiKey = String.fromEnvironment('GEMINI_API_KEY');
+    if (apiKey.isNotEmpty) {
+      _chatService.initialize(apiKey);
+    }
     _addWelcomeMessage();
   }
 

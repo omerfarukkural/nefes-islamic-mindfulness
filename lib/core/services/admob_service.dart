@@ -16,6 +16,7 @@ class AdMobService {
 
   static String get bannerAdUnitId {
     if (_useTestAds) return _testBannerAdUnitId;
+    if (kIsWeb) return '';
     return Platform.isAndroid ? _bannerAdUnitIdAndroid : _testBannerAdUnitId;
   }
 

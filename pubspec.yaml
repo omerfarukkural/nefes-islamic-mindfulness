@@ -45,7 +45,7 @@ dependencies:
   uuid: ^4.4.0
   equatable: ^2.0.5
   # Islamic Features
-  adhan: ^1.0.1
+  adhan: ^2.0.0+1
   hijri: ^3.0.0
   # Ads
   google_mobile_ads: ^5.1.0
@@ -67,9 +67,9 @@ flutter:
     - assets/audio/
     - assets/lottie/
     - assets/data/
-  fonts:
-    - family: Amiri
-      fonts:
-        - asset: assets/fonts/Amiri-Regular.ttf
-        - asset: assets/fonts/Amiri-Bold.ttf
-          weight: 700
+  # fonts:
+  #   - family: Amiri
+  #     fonts:
+  #       - asset: assets/fonts/Amiri-Regular.ttf
+  #       - asset: assets/fonts/Amiri-Bold.ttf
+  #         weight: 700
