@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "nefes-app-PROJECT_ID"
+  },
+  "targets": {
+    "nefes-app-PROJECT_ID": {
+      "hosting": {
+        "mutluet": [
+          "nefes-app-PROJECT_ID"
+        ]
+      }
+    }
+  }
+}
