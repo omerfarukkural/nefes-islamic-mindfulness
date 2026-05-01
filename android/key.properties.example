@@ -1,0 +1,6 @@
+# Bu dosyayı kopyalayıp android/key.properties olarak kaydet
+# .gitignore'a ekle - ASLA commit etme!
+storePassword=SİFRENİ_YAZ
+keyPassword=KEY_SİFRESİNİ_YAZ
+keyAlias=nefes-key
+storeFile=../keystore/nefes-release-key.jks
