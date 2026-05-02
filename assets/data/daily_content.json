@@ -1,0 +1,182 @@
+{
+  "general": [
+    {
+      "text": "İki günü eşit olan aldanmıştır.",
+      "source": "Hz. Ali"
+    },
+    {
+      "text": "Zorluğun ardından mutlaka bir kolaylık vardır.",
+      "source": "Quran, İnşirah 94:6"
+    },
+    {
+      "text": "Her nefes bir nimettir; farkında olmak ise bir erdemindir.",
+      "source": "Nefes"
+    },
+    {
+      "text": "Bugün küçük bir adım, yarın büyük bir yolculuğun başlangıcıdır.",
+      "source": "Lao Tzu"
+    },
+    {
+      "text": "Sakin bir zihin en büyük servettir.",
+      "source": "Marcus Aurelius"
+    },
+    {
+      "text": "İnsan düşündüğü gibidir.",
+      "source": "Marcus Aurelius, Düşünceler"
+    },
+    {
+      "text": "Şikâyet etme; ya değiştirebiliyorsan değiştir, ya da kabullen.",
+      "source": "Epiktetos"
+    },
+    {
+      "text": "Dün bir geçmişti, yarın bir hayaldir; bugün ise bir lütuftur.",
+      "source": "Eleanor Roosevelt"
+    },
+    {
+      "text": "Sabır acı bir şeydir; ancak meyvesi tatlıdır.",
+      "source": "Aristoteles"
+    },
+    {
+      "text": "Gerçek huzur her şeyin sona erdiğinde başlar.",
+      "source": "Rumi"
+    },
+    {
+      "text": "Kendi içine bak; orada her şeyin kaynağı var.",
+      "source": "Marcus Aurelius"
+    },
+    {
+      "text": "Küçük şeylerde mükemmellik olmadan büyük şeylerde mükemmellik olmaz.",
+      "source": "Michelangelo"
+    }
+  ],
+  "spiritual": [
+    {
+      "text": "Her şey bir enerjidir ve bu, gerçekliğin tek gerçeğidir.",
+      "source": "Albert Einstein"
+    },
+    {
+      "text": "Evren sana ne verdiğine değil, sen evrene ne verdiğine dikkat eder.",
+      "source": "Spiritüel öğreti"
+    },
+    {
+      "text": "İçinde bir ışık var; onu söndürme.",
+      "source": "Rumi"
+    },
+    {
+      "text": "Nefes al, bırak, tekrar başla. Her an yeni bir başlangıçtır.",
+      "source": "Nefes"
+    },
+    {
+      "text": "Huzur dışarıda değil, içindedir.",
+      "source": "Budist öğreti"
+    },
+    {
+      "text": "Şu ana tam olarak katıl; geçmiş geçti, gelecek henüz gelmedi.",
+      "source": "Thich Nhat Hanh"
+    }
+  ],
+  "muslim": [
+    {
+      "text": "Dikkat edin, kalpler ancak Allah'ı anmakla huzur bulur.",
+      "source": "Quran, Ra'd 13:28"
+    },
+    {
+      "text": "Allah, bir kuluna güç yetiremeyeceği bir yük yüklemez.",
+      "source": "Quran, Bakara 2:286"
+    },
+    {
+      "text": "Zorluğun ardından mutlaka bir kolaylık vardır.",
+      "source": "Quran, İnşirah 94:6"
+    },
+    {
+      "text": "Şüphesiz Allah sabredenlerle beraberdir.",
+      "source": "Quran, Bakara 2:153"
+    },
+    {
+      "text": "Güzel söz sadakadır.",
+      "source": "Hz. Muhammed (s.a.v)"
+    },
+    {
+      "text": "Kolaylaştırın, zorlaştırmayın; müjdeleyin, nefret ettirmeyin.",
+      "source": "Hz. Muhammed (s.a.v)"
+    }
+  ],
+  "christian": [
+    {
+      "text": "Her şeyi beni güçlendiren aracılığıyla yapabilirim.",
+      "source": "Filipililer 4:13"
+    },
+    {
+      "text": "Kaygılanmayın; her konuda dua ve yakarmayla dileklerinizi Tanrı'ya bildirin.",
+      "source": "Filipililer 4:6"
+    },
+    {
+      "text": "Yorgun ve yüklü olan herkes bana gelsin; ben size huzur veririm.",
+      "source": "Matta 11:28"
+    },
+    {
+      "text": "Tanrı bize korku değil, güç, sevgi ve öz denetim ruhu vermiştir.",
+      "source": "2. Timoteos 1:7"
+    }
+  ],
+  "jewish": [
+    {
+      "text": "Her insan bir dünya taşır.",
+      "source": "Talmud"
+    },
+    {
+      "text": "İyilik yap ve kötülükten kaç; barışı ara ve peşinden git.",
+      "source": "Mezmurlar 34:14"
+    },
+    {
+      "text": "Bir mumu yakarak karanlığı söndüremezsin; ama sevgiyle karanlığı aydınlatabilirsin.",
+      "source": "Talmud öğretisi"
+    }
+  ],
+  "buddhist": [
+    {
+      "text": "Acı kaçınılmazdır; ıstırap ise isteğe bağlıdır.",
+      "source": "Buda"
+    },
+    {
+      "text": "Şu an burada olmak yeterlidir.",
+      "source": "Zen öğretisi"
+    },
+    {
+      "text": "Düşünce ne ise, insan odur. Kötü düşünceler acıya, iyi düşünceler mutluluğa götürür.",
+      "source": "Dhammapada"
+    },
+    {
+      "text": "Tüm varlıklar mutlu olsun, tüm varlıklar huzurlu olsun.",
+      "source": "Metta Meditasyonu"
+    }
+  ],
+  "hindu": [
+    {
+      "text": "Meyveye değil, eyleme odaklan.",
+      "source": "Bhagavad Gita 2:47"
+    },
+    {
+      "text": "Gerçek bilgi, gerçek huzuru getirir.",
+      "source": "Bhagavad Gita"
+    },
+    {
+      "text": "Her nefes, evrenin ruhunun içinden geçişidir.",
+      "source": "Upanişadlar"
+    }
+  ],
+  "other": [
+    {
+      "text": "Kendi yolunu çiz; başkasının izinden yürüme.",
+      "source": "Evrensel bilgelik"
+    },
+    {
+      "text": "Bugünü tam yaşa; dün gitti, yarın henüz gelmedi.",
+      "source": "Evrensel bilgelik"
+    },
+    {
+      "text": "Nefes al. Her şey geçecek.",
+      "source": "Nefes"
+    }
+  ]
+}
