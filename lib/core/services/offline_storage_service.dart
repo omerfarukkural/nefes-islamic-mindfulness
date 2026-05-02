@@ -21,7 +21,9 @@ class OfflineStorageService {
 
   static List<Map<String, dynamic>> getMoodEntries() {
     final box = Hive.box(moodBoxName);
-    return box.values.cast<Map<String, dynamic>>().toList();
+    return box.values
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
   }
 
   // Meditation Sessions
@@ -34,25 +36,45 @@ class OfflineStorageService {
     final box = Hive.box(meditationBoxName);
     int total = 0;
     for (var session in box.values) {
-      total += (session['duration_minutes'] as int?) ?? 0;
+      total += (Map<String, dynamic>.from(session as Map)['duration_minutes'] as int?) ?? 0;
     }
     return total;
+  }
+
+  static int getMeditationSessionCount() {
+    return Hive.box(meditationBoxName).length;
   }
 
   static int getMeditationStreak() {
     final box = Hive.box(meditationBoxName);
     if (box.isEmpty) return 0;
-    // Calculate streak logic
+
+    // Benzersiz günleri bul
+    final uniqueDays = <String>{};
+    for (var session in box.values) {
+      final dateStr = (Map<String, dynamic>.from(session as Map)['date'] as String?) ?? '';
+      if (dateStr.isNotEmpty) {
+        try {
+          final date = DateTime.parse(dateStr);
+          uniqueDays.add('${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}');
+        } catch (_) {}
+      }
+    }
+
+    final sortedDays = uniqueDays.toList()..sort((a, b) => b.compareTo(a));
+
     int streak = 0;
     DateTime checkDate = DateTime.now();
-    final sessions = box.values.toList();
-    sessions.sort((a, b) => (b['date'] as String).compareTo(a['date'] as String));
-    
-    for (var session in sessions) {
-      final sessionDate = DateTime.parse(session['date'] as String);
-      if (sessionDate.day == checkDate.day &&
-          sessionDate.month == checkDate.month &&
-          sessionDate.year == checkDate.year) {
+
+    for (final dayStr in sortedDays) {
+      final parts = dayStr.split('-');
+      final year = int.parse(parts[0]);
+      final month = int.parse(parts[1]);
+      final day = int.parse(parts[2]);
+
+      if (day == checkDate.day &&
+          month == checkDate.month &&
+          year == checkDate.year) {
         streak++;
         checkDate = checkDate.subtract(const Duration(days: 1));
       } else {
@@ -71,5 +93,24 @@ class OfflineStorageService {
   static dynamic getSetting(String key, {dynamic defaultValue}) {
     final box = Hive.box(settingsBoxName);
     return box.get(key, defaultValue: defaultValue);
+  }
+
+  // Dua Favorites
+  static List<int> getDuaFavorites() {
+    final box = Hive.box(duaBoxName);
+    final favs = box.get('favorites', defaultValue: <dynamic>[]);
+    return List<int>.from(favs as List);
+  }
+
+  static Future<void> toggleDuaFavorite(int duaId) async {
+    final box = Hive.box(duaBoxName);
+    final favs = List<int>.from(
+        (box.get('favorites', defaultValue: <dynamic>[]) as List));
+    if (favs.contains(duaId)) {
+      favs.remove(duaId);
+    } else {
+      favs.add(duaId);
+    }
+    await box.put('favorites', favs);
   }
 }

@@ -7,15 +7,21 @@ import 'app/app.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/admob_service.dart';
 import 'core/services/purchase_service.dart';
+import 'core/services/offline_storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Firebase başlat
-  await Firebase.initializeApp();
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    debugPrint('Firebase başlatma hatası: $e');
+  }
 
   // Hive (offline depolama)
   await Hive.initFlutter();
+  await OfflineStorageService.initializeBoxes();
 
   // Bildirimler
   if (!kIsWeb) {

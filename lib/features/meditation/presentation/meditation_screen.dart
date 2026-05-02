@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/services/offline_storage_service.dart';
 
 class MeditationScreen extends StatefulWidget {
   const MeditationScreen({super.key});
@@ -12,6 +13,7 @@ class MeditationScreen extends StatefulWidget {
 class _MeditationScreenState extends State<MeditationScreen>
     with TickerProviderStateMixin {
   int _selectedMinutes = 5;
+  String _selectedType = 'Meditasyon';
   bool _isRunning = false;
   int _remainingSeconds = 0;
   Timer? _timer;
@@ -60,8 +62,19 @@ class _MeditationScreenState extends State<MeditationScreen>
   void _stopMeditation() {
     _timer?.cancel();
     _breatheController.stop();
+
+    final elapsedSeconds = _selectedMinutes * 60 - _remainingSeconds;
+    final elapsedMinutes = elapsedSeconds ~/ 60;
+
+    if (elapsedMinutes > 0) {
+      OfflineStorageService.saveMeditationSession({
+        'date': DateTime.now().toIso8601String(),
+        'duration_minutes': elapsedMinutes,
+        'type': _selectedType,
+      });
+    }
+
     setState(() => _isRunning = false);
-    // TODO: Save session to offline storage
   }
 
   @override
@@ -110,7 +123,10 @@ class _MeditationScreenState extends State<MeditationScreen>
                   trailing: const Icon(Icons.play_circle_filled,
                       color: AppColors.primary, size: 36),
                   onTap: () {
-                    setState(() => _selectedMinutes = type['duration'] as int);
+                    setState(() {
+                      _selectedMinutes = type['duration'] as int;
+                      _selectedType = type['title'] as String;
+                    });
                     _startMeditation();
                   },
                 ),

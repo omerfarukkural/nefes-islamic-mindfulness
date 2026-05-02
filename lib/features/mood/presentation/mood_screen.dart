@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/services/offline_storage_service.dart';
 
 class MoodScreen extends StatefulWidget {
   const MoodScreen({super.key});
@@ -19,6 +20,15 @@ class _MoodScreenState extends State<MoodScreen> {
     {'emoji': '😔', 'label': 'Kötü', 'value': 2, 'color': Colors.orange},
     {'emoji': '😢', 'label': 'Çok Kötü', 'value': 1, 'color': Colors.red},
   ];
+
+  static const _moodEmojis = {1: '😢', 2: '😔', 3: '😐', 4: '🙂', 5: '😊'};
+  static const _moodLabels = {
+    1: 'Çok Kötü',
+    2: 'Kötü',
+    3: 'Normal',
+    4: 'İyi',
+    5: 'Harika',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -104,19 +114,62 @@ class _MoodScreenState extends State<MoodScreen> {
   }
 
   Widget _buildMoodHistory() {
-    // TODO: Load from offline storage
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.all(32),
-        child: Text('Henüz kayıt yok.\nİlk ruh hali kaydını oluştur!',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey)),
-      ),
+    List<Map<String, dynamic>> entries = [];
+    try {
+      entries = OfflineStorageService.getMoodEntries()
+          .reversed
+          .take(7)
+          .toList();
+    } catch (_) {}
+
+    if (entries.isEmpty) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(32),
+          child: Text('Henüz kayıt yok.\nİlk ruh hali kaydını oluştur!',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey)),
+        ),
+      );
+    }
+
+    return Column(
+      children: entries.map((entry) {
+        final moodValue = entry['mood'] as int? ?? 3;
+        final note = entry['note'] as String? ?? '';
+        final dateStr = entry['date'] as String? ?? '';
+        DateTime? date;
+        try {
+          date = DateTime.parse(dateStr);
+        } catch (_) {}
+
+        return ListTile(
+          leading: Text(
+            _moodEmojis[moodValue] ?? '😐',
+            style: const TextStyle(fontSize: 28),
+          ),
+          title: Text(_moodLabels[moodValue] ?? 'Normal'),
+          subtitle: note.isNotEmpty
+              ? Text(note, maxLines: 1, overflow: TextOverflow.ellipsis)
+              : null,
+          trailing: date != null
+              ? Text(
+                  '${date.day}/${date.month}',
+                  style: const TextStyle(color: Colors.grey),
+                )
+              : null,
+        );
+      }).toList(),
     );
   }
 
   void _saveMood() {
-    // TODO: Save to offline storage via OfflineStorageService
+    if (_selectedMood == null) return;
+    OfflineStorageService.saveMoodEntry({
+      'mood': _selectedMood,
+      'note': _noteController.text.trim(),
+      'date': DateTime.now().toIso8601String(),
+    });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Ruh halin kaydedildi! ✅'),

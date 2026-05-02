@@ -8,14 +8,25 @@ import '../../features/mood/presentation/mood_screen.dart';
 import '../../features/dua/presentation/dua_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
+import '../../features/paywall/paywall_screen.dart';
+import '../services/offline_storage_service.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
+  final bool hasSeenOnboarding =
+      OfflineStorageService.getSetting('onboarding_complete',
+          defaultValue: false) as bool? ??
+          false;
+
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: hasSeenOnboarding ? '/' : '/onboarding',
     routes: [
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/paywall',
+        builder: (context, state) => const PaywallScreen(),
       ),
       ShellRoute(
         builder: (context, state, child) => MainShell(child: child),
