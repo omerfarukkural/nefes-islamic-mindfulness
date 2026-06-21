@@ -1,39 +1,99 @@
-name: Deploy to Firebase Hosting (mutluet.org)
+name: 🌐 Deploy Web — Firebase Hosting + Cloudflare Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
-jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout kodu al
-        uses: actions/checkout@v4
+concurrency:
+  group: deploy-web-${{ github.ref }}
+  cancel-in-progress: true
 
-      - name: Flutter kur
-        uses: subosito/flutter-action@v2
+env:
+  FLUTTER_VERSION: '3.24.0'
+  NODE_VERSION: '20'
+
+jobs:
+  # ─── 1. BUILD ────────────────────────────────────────────────────────────────
+  build:
+    name: Flutter Web Build
+    runs-on: ubuntu-latest
+    outputs:
+      build-path: build/web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
           cache: true
 
       - name: Bağımlılıkları yükle
         run: flutter pub get
 
-      - name: Web için build al
+      - name: Dart analizi
+        run: flutter analyze --no-fatal-infos
+
+      - name: Web build (CanvasKit renderer)
         run: |
           flutter build web --release \
-            --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }} \
-            --web-renderer canvaskit
+            --web-renderer canvaskit \
+            --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+
+      - name: Build artifact kaydet
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build-${{ github.sha }}
+          path: build/web
+          retention-days: 1
+
+  # ─── 2. FIREBASE HOSTING (primary) ───────────────────────────────────────────
+  deploy-firebase:
+    name: Firebase Hosting Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: production
+      url: https://nefes-app.web.app
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build artifact indir
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build-${{ github.sha }}
+          path: build/web
 
       - name: Firebase Hosting'e deploy et
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
-          projectId: nefes-app-PROJECT_ID
+          projectId: nefes-app
           target: mutluet
+
+  # ─── 3. CLOUDFLARE PAGES (CDN mirror + custom domain) ────────────────────────
+  deploy-cloudflare:
+    name: Cloudflare Pages Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: cloudflare-production
+      url: https://nefes.mutluet.org
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build artifact indir
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build-${{ github.sha }}
+          path: build/web
+
+      - name: Cloudflare Pages'e deploy et
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy build/web --project-name=nefes-app --branch=main

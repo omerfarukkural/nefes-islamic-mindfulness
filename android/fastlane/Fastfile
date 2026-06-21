@@ -1,0 +1,23 @@
+default_platform(:android)
+
+platform :android do
+  desc "Deploy to Play Store"
+  lane :deploy_to_play_store do |options|
+    track = options[:track] || ENV["TRACK"] || "internal"
+    aab   = options[:aab]   || ENV["AAB_PATH"] || "../build/app/outputs/bundle/release/app-release.aab"
+
+    upload_to_play_store(
+      track:                    track,
+      aab:                      aab,
+      json_key_data:            ENV["PLAY_STORE_SERVICE_ACCOUNT_JSON"],
+      package_name:             "com.omerfarukkural.nefes_app",
+      skip_upload_apk:          true,
+      skip_upload_metadata:     true,
+      skip_upload_changelogs:   false,
+      skip_upload_images:       true,
+      skip_upload_screenshots:  true,
+      release_status:           track == "production" ? "halted" : "completed",
+      rollout:                  track == "production" ? "0.1" : nil
+    )
+  end
+end

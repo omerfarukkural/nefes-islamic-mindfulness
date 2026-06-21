@@ -1,14 +1,23 @@
-name: Flutter CI/CD
+name: 🔬 Flutter CI — Analyze, Test, Build Check
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, 'claude/**', 'feature/**']
   pull_request:
-    branches: [main]
+    branches: [main, develop]
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: '3.24.0'
+  JAVA_VERSION: '17'
+
 jobs:
-  analyze-and-test:
+  # ─── ANALYZE & TEST ───────────────────────────────────────────────────────────
+  analyze-test:
     name: Analyze & Test
     runs-on: ubuntu-latest
     steps:
@@ -16,90 +25,88 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
           cache: true
 
-      - name: Install dependencies
+      - name: Bağımlılıkları yükle
         run: flutter pub get
 
-      - name: Analyze code
+      - name: Dart format kontrolü
+        run: dart format --output=none --set-exit-if-changed lib/
+
+      - name: Flutter analizi
         run: flutter analyze --no-fatal-infos
 
-      - name: Run tests
+      - name: Testleri çalıştır
         run: flutter test --coverage
 
-      - name: Upload coverage
+      - name: Coverage raporu yükle
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
-          path: coverage/
+          name: coverage-${{ github.sha }}
+          path: coverage/lcov.info
+          retention-days: 7
 
+  # ─── BUILD WEB ────────────────────────────────────────────────────────────────
+  build-web:
+    name: Build Web
+    runs-on: ubuntu-latest
+    needs: analyze-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Web build (CanvasKit)
+        run: |
+          flutter build web --release \
+            --web-renderer canvaskit \
+            --dart-define=GEMINI_API_KEY=PLACEHOLDER_FOR_CI
+
+      - name: Web build boyutunu raporla
+        run: |
+          echo "### 📦 Web Build Boyutu" >> $GITHUB_STEP_SUMMARY
+          du -sh build/web >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Dosya | Boyut |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
+          find build/web -name "*.js" -exec du -sh {} \; | sort -rh | head -5 | \
+            awk '{print "| " $2 " | " $1 " |"}' >> $GITHUB_STEP_SUMMARY
+
+  # ─── BUILD ANDROID (sadece main/develop) ──────────────────────────────────────
   build-android:
     name: Build Android APK
     runs-on: ubuntu-latest
-    needs: analyze-and-test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: analyze-test
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
+      - run: flutter pub get
 
-      - name: Build APK (Release)
-        run: flutter build apk --release --split-per-abi
+      - name: Debug APK build (signing olmadan)
+        run: flutter build apk --debug
 
-      - name: Build App Bundle
-        run: flutter build appbundle --release
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/*.apk
-
-      - name: Upload AAB Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-aab
-          path: build/app/outputs/bundle/release/*.aab
-
-  create-release:
-    name: Create GitHub Release
-    runs-on: ubuntu-latest
-    needs: build-android
-    if: startsWith(github.ref, 'refs/tags/v')
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: release-apk
-          path: ./apk
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: release-aab
-          path: ./aab
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            apk/*.apk
-            aab/*.aab
-          generate_release_notes: true
+      - name: APK boyutu
+        run: |
+          echo "### 📱 Android APK Boyutu" >> $GITHUB_STEP_SUMMARY
+          du -sh build/app/outputs/flutter-apk/app-debug.apk >> $GITHUB_STEP_SUMMARY

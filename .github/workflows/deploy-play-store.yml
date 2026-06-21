@@ -1,0 +1,188 @@
+name: 🤖 Deploy Android — Play Store
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'           # v1.0.0, v1.2.3 gibi tag'lerde otomatik
+  workflow_dispatch:
+    inputs:
+      track:
+        description: 'Play Store track'
+        required: true
+        default: 'internal'
+        type: choice
+        options:
+          - internal
+          - alpha
+          - beta
+          - production
+      version_bump:
+        description: 'Version bump type'
+        required: false
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: play-store-deploy
+  cancel-in-progress: false
+
+env:
+  FLUTTER_VERSION: '3.24.0'
+  JAVA_VERSION: '17'
+
+jobs:
+  # ─── 1. TEST ──────────────────────────────────────────────────────────────────
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+      - run: flutter analyze --no-fatal-infos
+      - run: flutter test
+
+  # ─── 2. BUILD AAB ────────────────────────────────────────────────────────────
+  build-aab:
+    name: Build Release AAB
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Keystore oluştur
+        run: |
+          mkdir -p android/keystore
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/keystore/nefes-release-key.jks
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=../keystore/nefes-release-key.jks
+          EOF
+
+      - name: google-services.json yükle
+        run: echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > android/app/google-services.json
+
+      - name: Bağımlılıkları yükle
+        run: flutter pub get
+
+      - name: AAB build
+        run: |
+          flutter build appbundle --release \
+            --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+
+      - name: AAB artifact kaydet
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aab-${{ github.sha }}
+          path: build/app/outputs/bundle/release/app-release.aab
+          retention-days: 7
+
+  # ─── 3. PLAY STORE DEPLOY ────────────────────────────────────────────────────
+  deploy:
+    name: Play Store Deploy (${{ github.event.inputs.track || 'internal' }})
+    runs-on: ubuntu-latest
+    needs: build-aab
+    environment:
+      name: play-store-${{ github.event.inputs.track || 'internal' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: AAB artifact indir
+        uses: actions/download-artifact@v4
+        with:
+          name: release-aab-${{ github.sha }}
+          path: ./aab
+
+      - name: Ruby ve Fastlane kur
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: android
+
+      - name: Google Play Service Account key yaz
+        run: echo "${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}" > android/fastlane/play-store-key.json
+
+      - name: Fastlane deploy
+        working-directory: android
+        run: bundle exec fastlane deploy_to_play_store
+        env:
+          TRACK: ${{ github.event.inputs.track || 'internal' }}
+          AAB_PATH: ../aab/app-release.aab
+
+  # ─── 4. GITHUB RELEASE (tag push'ta) ─────────────────────────────────────────
+  github-release:
+    name: GitHub Release Oluştur
+    runs-on: ubuntu-latest
+    needs: build-aab
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: AAB artifact indir
+        uses: actions/download-artifact@v4
+        with:
+          name: release-aab-${{ github.sha }}
+          path: ./aab
+
+      - name: APK de build et (sideload için)
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: |
+          mkdir -p android/keystore
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/keystore/nefes-release-key.jks
+          cat > android/key.properties <<EOF
+          storePassword=${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=../keystore/nefes-release-key.jks
+          EOF
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 --decode > android/app/google-services.json
+          flutter pub get
+          flutter build apk --release --split-per-abi \
+            --dart-define=GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+
+      - name: GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            aab/*.aab
+            build/app/outputs/flutter-apk/*.apk
