@@ -5,9 +5,40 @@ class NotificationService {
       FlutterLocalNotificationsPlugin();
 
   static Future<void> initialize() async {
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     const settings = InitializationSettings(android: androidSettings);
     await _plugin.initialize(settings);
+  }
+
+  static Future<void> scheduleDailyMeditationReminder({
+    required int hour,
+    required int minute,
+  }) async {
+    const androidDetails = AndroidNotificationDetails(
+      'meditation_channel',
+      'Meditasyon Hatırlatıcı',
+      channelDescription: 'Günlük meditasyon hatırlatmaları',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+    const details = NotificationDetails(android: androidDetails);
+
+    final now = DateTime.now();
+    var scheduledDate =
+        DateTime(now.year, now.month, now.day, hour, minute);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+
+    await _plugin.periodicallyShow(
+      0,
+      '🧘 Nefes Zamanı',
+      'Bugünkü meditasyonunu yapmayı unutma. Birkaç dakika kendine ayır.',
+      RepeatInterval.daily,
+      details,
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+    );
   }
 
   static Future<void> showMeditationReminder() async {
@@ -42,5 +73,9 @@ class NotificationService {
       '$prayerName namazı vakti geldi. Haydi namaza!',
       details,
     );
+  }
+
+  static Future<void> cancelAll() async {
+    await _plugin.cancelAll();
   }
 }

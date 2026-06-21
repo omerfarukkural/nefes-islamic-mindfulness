@@ -8,81 +8,85 @@ import '../../features/mood/presentation/mood_screen.dart';
 import '../../features/dua/presentation/dua_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
+import '../../features/prayer/presentation/prayer_screen.dart';
+import '../services/offline_storage_service.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
+  final showOnboarding = !OfflineStorageService.hasSeenOnboarding();
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: showOnboarding ? '/onboarding' : '/',
     routes: [
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
       ),
       ShellRoute(
-        builder: (context, state, child) => MainShell(child: child),
+        builder: (context, state, child) => MainShell(
+          location: state.uri.toString(),
+          child: child,
+        ),
         routes: [
-          GoRoute(
-            path: '/',
-            builder: (context, state) => const HomeScreen(),
-          ),
-          GoRoute(
-            path: '/meditation',
-            builder: (context, state) => const MeditationScreen(),
-          ),
-          GoRoute(
-            path: '/chat',
-            builder: (context, state) => const ChatScreen(),
-          ),
-          GoRoute(
-            path: '/mood',
-            builder: (context, state) => const MoodScreen(),
-          ),
-          GoRoute(
-            path: '/dua',
-            builder: (context, state) => const DuaScreen(),
-          ),
-          GoRoute(
-            path: '/settings',
-            builder: (context, state) => const SettingsScreen(),
-          ),
+          GoRoute(path: '/', builder: (_, __) => const HomeScreen()),
+          GoRoute(path: '/meditation', builder: (_, __) => const MeditationScreen()),
+          GoRoute(path: '/chat', builder: (_, __) => const ChatScreen()),
+          GoRoute(path: '/mood', builder: (_, __) => const MoodScreen()),
+          GoRoute(path: '/dua', builder: (_, __) => const DuaScreen()),
+          GoRoute(path: '/prayer', builder: (_, __) => const PrayerScreen()),
+          GoRoute(path: '/settings', builder: (_, __) => const SettingsScreen()),
         ],
       ),
     ],
   );
 });
 
-class MainShell extends StatefulWidget {
+class MainShell extends StatelessWidget {
+  final String location;
   final Widget child;
-  const MainShell({super.key, required this.child});
 
-  @override
-  State<MainShell> createState() => _MainShellState();
-}
+  const MainShell({super.key, required this.location, required this.child});
 
-class _MainShellState extends State<MainShell> {
-  int _currentIndex = 0;
+  static const _routes = ['/', '/meditation', '/chat', '/mood', '/dua'];
+
+  int get _currentIndex {
+    final idx = _routes.indexOf(location);
+    return idx == -1 ? 0 : idx;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.child,
+      body: child,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (index) {
-          setState(() => _currentIndex = index);
-          switch (index) {
-            case 0: context.go('/'); break;
-            case 1: context.go('/meditation'); break;
-            case 2: context.go('/chat'); break;
-            case 3: context.go('/mood'); break;
-            case 4: context.go('/dua'); break;
-          }
+          context.go(_routes[index]);
         },
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_rounded), label: 'Ana Sayfa'),
-          NavigationDestination(icon: Icon(Icons.self_improvement), label: 'Meditasyon'),
-          NavigationDestination(icon: Icon(Icons.chat_bubble_rounded), label: 'AI Sohbet'),
-          NavigationDestination(icon: Icon(Icons.mood_rounded), label: 'Ruh Hali'),
-          NavigationDestination(icon: Icon(Icons.menu_book_rounded), label: 'Dua'),
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home_rounded),
+            label: 'Ana Sayfa',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.self_improvement_outlined),
+            selectedIcon: Icon(Icons.self_improvement),
+            label: 'Meditasyon',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.chat_bubble_outline_rounded),
+            selectedIcon: Icon(Icons.chat_bubble_rounded),
+            label: 'AI Sohbet',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.mood_outlined),
+            selectedIcon: Icon(Icons.mood_rounded),
+            label: 'Ruh Hali',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book_rounded),
+            label: 'Dua',
+          ),
         ],
       ),
     );

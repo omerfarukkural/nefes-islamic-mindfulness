@@ -13,48 +13,86 @@ class OfflineStorageService {
     await Hive.openBox(duaBoxName);
   }
 
-  // Mood Entries
+  // ── Mood ──────────────────────────────────────────────────────────────────
+
   static Future<void> saveMoodEntry(Map<String, dynamic> entry) async {
     final box = Hive.box(moodBoxName);
-    await box.add(entry);
+    await box.add(Map<String, dynamic>.from(entry));
   }
 
   static List<Map<String, dynamic>> getMoodEntries() {
     final box = Hive.box(moodBoxName);
-    return box.values.cast<Map<String, dynamic>>().toList();
+    return box.values
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList()
+      ..sort((a, b) => (b['date'] as String).compareTo(a['date'] as String));
   }
 
-  // Meditation Sessions
+  static List<Map<String, dynamic>> getMoodEntriesLastDays(int days) {
+    final cutoff = DateTime.now().subtract(Duration(days: days));
+    return getMoodEntries().where((e) {
+      try {
+        return DateTime.parse(e['date'] as String).isAfter(cutoff);
+      } catch (_) {
+        return false;
+      }
+    }).toList();
+  }
+
+  // ── Meditation ────────────────────────────────────────────────────────────
+
   static Future<void> saveMeditationSession(Map<String, dynamic> session) async {
     final box = Hive.box(meditationBoxName);
-    await box.add(session);
+    await box.add(Map<String, dynamic>.from(session));
   }
 
   static int getTotalMeditationMinutes() {
     final box = Hive.box(meditationBoxName);
     int total = 0;
-    for (var session in box.values) {
-      total += (session['duration_minutes'] as int?) ?? 0;
+    for (final s in box.values) {
+      final m = s as Map;
+      total += (m['duration_minutes'] as int?) ?? 0;
     }
     return total;
+  }
+
+  static int getTotalMeditationSessions() {
+    return Hive.box(meditationBoxName).length;
   }
 
   static int getMeditationStreak() {
     final box = Hive.box(meditationBoxName);
     if (box.isEmpty) return 0;
-    // Calculate streak logic
+
+    final sessions = box.values
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList()
+      ..sort((a, b) => (b['date'] as String).compareTo(a['date'] as String));
+
+    // Collect unique session dates
+    final Set<String> dates = {};
+    for (final s in sessions) {
+      try {
+        final d = DateTime.parse(s['date'] as String);
+        dates.add('${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}');
+      } catch (_) {}
+    }
+
+    if (dates.isEmpty) return 0;
+
     int streak = 0;
-    DateTime checkDate = DateTime.now();
-    final sessions = box.values.toList();
-    sessions.sort((a, b) => (b['date'] as String).compareTo(a['date'] as String));
-    
-    for (var session in sessions) {
-      final sessionDate = DateTime.parse(session['date'] as String);
-      if (sessionDate.day == checkDate.day &&
-          sessionDate.month == checkDate.month &&
-          sessionDate.year == checkDate.year) {
+    DateTime check = DateTime.now();
+    // If no session today, start from yesterday
+    final todayKey = '${check.year}-${check.month.toString().padLeft(2, '0')}-${check.day.toString().padLeft(2, '0')}';
+    if (!dates.contains(todayKey)) {
+      check = check.subtract(const Duration(days: 1));
+    }
+
+    while (true) {
+      final key = '${check.year}-${check.month.toString().padLeft(2, '0')}-${check.day.toString().padLeft(2, '0')}';
+      if (dates.contains(key)) {
         streak++;
-        checkDate = checkDate.subtract(const Duration(days: 1));
+        check = check.subtract(const Duration(days: 1));
       } else {
         break;
       }
@@ -62,7 +100,41 @@ class OfflineStorageService {
     return streak;
   }
 
-  // Settings
+  // ── Dua Favorites ─────────────────────────────────────────────────────────
+
+  static Future<void> toggleDuaFavorite(String duaTitle) async {
+    final box = Hive.box(duaBoxName);
+    final favorites = box.get('favorites', defaultValue: <dynamic>[]) as List;
+    if (favorites.contains(duaTitle)) {
+      favorites.remove(duaTitle);
+    } else {
+      favorites.add(duaTitle);
+    }
+    await box.put('favorites', favorites);
+  }
+
+  static bool isDuaFavorite(String duaTitle) {
+    final box = Hive.box(duaBoxName);
+    final favorites = box.get('favorites', defaultValue: <dynamic>[]) as List;
+    return favorites.contains(duaTitle);
+  }
+
+  static List<String> getFavoriteDuas() {
+    final box = Hive.box(duaBoxName);
+    final favorites = box.get('favorites', defaultValue: <dynamic>[]) as List;
+    return favorites.cast<String>();
+  }
+
+  // ── Zikir Counter ─────────────────────────────────────────────────────────
+
+  static Future<void> saveZikirSession(String zikirName, int count) async {
+    final box = Hive.box(settingsBoxName);
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+    await box.put('zikir_${zikirName}_$today', count);
+  }
+
+  // ── Settings ──────────────────────────────────────────────────────────────
+
   static Future<void> saveSetting(String key, dynamic value) async {
     final box = Hive.box(settingsBoxName);
     await box.put(key, value);
@@ -71,5 +143,15 @@ class OfflineStorageService {
   static dynamic getSetting(String key, {dynamic defaultValue}) {
     final box = Hive.box(settingsBoxName);
     return box.get(key, defaultValue: defaultValue);
+  }
+
+  // ── Onboarding ────────────────────────────────────────────────────────────
+
+  static bool hasSeenOnboarding() {
+    return getSetting('onboarding_done', defaultValue: false) == true;
+  }
+
+  static Future<void> markOnboardingDone() async {
+    await saveSetting('onboarding_done', true);
   }
 }

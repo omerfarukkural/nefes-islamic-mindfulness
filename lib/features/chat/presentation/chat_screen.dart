@@ -16,29 +16,36 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> _messages = [];
   bool _isLoading = false;
 
+  bool _apiKeyMissing = false;
+
   @override
   void initState() {
     super.initState();
     const apiKey = String.fromEnvironment('GEMINI_API_KEY');
     if (apiKey.isNotEmpty) {
       _chatService.initialize(apiKey);
+    } else {
+      _apiKeyMissing = true;
     }
     _addWelcomeMessage();
   }
 
   void _addWelcomeMessage() {
     _messages.add(ChatMessage(
-      text: 'Selamun Aleyküm! 🙏\n\n'
-          'Ben Nefes Asistanı. Bugün nasıl hissediyorsun? '
-          'Seninle konuşmak, seni dinlemek için buradayım.\n\n'
-          'İstersen bugünkü ruh halinden bahset, '
-          'ya da birlikte nefes egzersizi yapalım.',
+      text: _apiKeyMissing
+          ? 'Selamun Aleyküm! 🙏\n\nAI sohbet özelliğini kullanmak için GEMINI_API_KEY gereklidir. Lütfen uygulamayı --dart-define=GEMINI_API_KEY=... ile derleyin.'
+          : 'Selamun Aleyküm! 🙏\n\n'
+              'Ben Nefes Asistanı. Bugün nasıl hissediyorsun? '
+              'Seninle konuşmak, seni dinlemek için buradayım.\n\n'
+              'İstersen bugünkü ruh halinden bahset, '
+              'ya da birlikte nefes egzersizi yapalım.',
       isUser: false,
       timestamp: DateTime.now(),
     ));
   }
 
   Future<void> _sendMessage() async {
+    if (_apiKeyMissing) return;
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
