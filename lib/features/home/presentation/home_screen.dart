@@ -5,6 +5,12 @@ import 'package:hijri/hijri_calendar.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/offline_storage_service.dart';
 import '../../../core/providers/theme_provider.dart';
+import '../../../core/providers/profile_provider.dart';
+import '../../../core/models/user_profile.dart';
+import '../../../core/providers/mizac_provider.dart';
+import '../../../core/services/ebced_service.dart';
+import '../../pusula/domain/kozmik_calculator.dart';
+import '../../mizac/domain/mizac_model.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -15,6 +21,13 @@ class HomeScreen extends ConsumerWidget {
     final minutes = OfflineStorageService.getTotalMeditationMinutes();
     final sessions = OfflineStorageService.getTotalMeditationSessions();
     final isDark = ref.watch(themeProvider) == ThemeMode.dark;
+    final profile = ref.watch(profileProvider);
+    final mizac = ref.watch(mizacProvider);
+
+    final now = DateTime.now();
+    final dailyEnergy = KozmikCalculator.dailyEnergyNumber(now);
+    final guidance = KozmikCalculator.dailyGuidance(dailyEnergy);
+    final element = KozmikCalculator.elementOfNumber(dailyEnergy);
 
     return Scaffold(
       appBar: AppBar(
@@ -52,10 +65,16 @@ class HomeScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildGreetingCard(context),
+              _buildGreetingCard(context, profile),
               const SizedBox(height: 16),
               _buildHijriCard(context),
+              const SizedBox(height: 16),
+              _buildDailyEnergyCard(context, dailyEnergy, element, guidance),
               const SizedBox(height: 20),
+              if (profile != null && mizac != null) ...[
+                _buildPersonalZikirCard(context, profile, mizac),
+                const SizedBox(height: 16),
+              ],
               Text(
                 'Bugün Ne Yapmak İstersin?',
                 style: Theme.of(context)
@@ -77,7 +96,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildGreetingCard(BuildContext context) {
+  Widget _buildGreetingCard(BuildContext context, UserProfile? profile) {
     final hour = DateTime.now().hour;
     final String greeting;
     final String subText;
@@ -99,6 +118,11 @@ class HomeScreen extends ConsumerWidget {
       subText = 'Günü şükranla tamamlamak kalbi sakinleştirir.';
       emoji = '🌅';
     }
+
+    final name = profile?.name;
+    final displayGreeting = (name != null && name.isNotEmpty)
+        ? '$greeting, $name'
+        : greeting;
 
     return Container(
       decoration: BoxDecoration(
@@ -123,9 +147,9 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    greeting,
+                    displayGreeting,
                     style: const TextStyle(
-                      fontSize: 22,
+                      fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
                     ),
@@ -143,23 +167,42 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 18),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => context.go('/meditation'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: AppColors.primary,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => context.go('/meditation'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: AppColors.primary,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      'Meditasyona Başla',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ),
-                child: const Text(
-                  'Meditasyona Başla',
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
-              ),
+                if (profile == null) ...[
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => context.push('/profil'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.white54),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text('Profil Kur'),
+                    ),
+                  ),
+                ],
+              ],
             ),
           ],
         ),
@@ -251,6 +294,142 @@ class HomeScreen extends ConsumerWidget {
     return months[m - 1];
   }
 
+  Widget _buildDailyEnergyCard(
+      BuildContext context, int energy, String element, String guidance) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF4A148C), Color(0xFF6A1B9A)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  '$energy',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Text(
+                  element.split(' ').last,
+                  style: const TextStyle(color: Colors.white70, fontSize: 11),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '🔮 Günün Enerjisi',
+                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  guidance.split('. ').first + '.',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () => context.push('/pusula'),
+            child: const Icon(Icons.arrow_forward_ios, color: Colors.white54, size: 14),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPersonalZikirCard(BuildContext context, UserProfile profile, MizacType mizac) {
+    final lifePathNumber = profile.lifePathNumber;
+    int ebcedVal = 0;
+    if (profile.arabicName.isNotEmpty) {
+      ebcedVal = EbcedService.reduceToDigit(
+        EbcedService.calculateEbced(profile.arabicName),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: mizac.color.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: mizac.color.withOpacity(0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(mizac.emoji, style: const TextStyle(fontSize: 22)),
+              const SizedBox(width: 8),
+              Text(
+                'Bana Özel Manevi Plan',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                  color: mizac.color,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          _buildPersonalRow('📿 Mizaç Zikirm', mizac.zikir),
+          _buildPersonalRow('☪️ Esma\'m', mizac.esma),
+          _buildPersonalRow('🌟 Yaşam Yolu', '$lifePathNumber — ${EbcedService.getNumberMeaning(lifePathNumber).split('.').first}'),
+          if (ebcedVal > 0)
+            _buildPersonalRow('🔢 Ebced', '$ebcedVal — ${EbcedService.getEbcedMeaning(ebcedVal).split(' —').first}'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPersonalRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 140,
+            child: Text(
+              label,
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildQuickActions(BuildContext context) {
     final actions = [
       {
@@ -261,18 +440,18 @@ class HomeScreen extends ConsumerWidget {
         'bg': AppColors.primary.withOpacity(0.1),
       },
       {
-        'icon': Icons.chat_bubble_rounded,
-        'label': 'AI Sohbet',
-        'route': '/chat',
-        'color': const Color(0xFF1565C0),
-        'bg': const Color(0xFF1565C0).withOpacity(0.1),
+        'icon': Icons.explore_rounded,
+        'label': 'Keşfet',
+        'route': '/kesket',
+        'color': const Color(0xFF6A1B9A),
+        'bg': const Color(0xFF6A1B9A).withOpacity(0.1),
       },
       {
         'icon': Icons.mood_rounded,
         'label': 'Ruh Hali',
         'route': '/mood',
-        'color': const Color(0xFF6A1B9A),
-        'bg': const Color(0xFF6A1B9A).withOpacity(0.1),
+        'color': const Color(0xFF1565C0),
+        'bg': const Color(0xFF1565C0).withOpacity(0.1),
       },
       {
         'icon': Icons.menu_book_rounded,
@@ -350,6 +529,22 @@ class HomeScreen extends ConsumerWidget {
       {
         'text': '"Güçlüğün yanında kolaylık vardır."',
         'ref': 'İnşirah Suresi, 5',
+      },
+      {
+        'text': '"Allah sabredenlerle beraberdir."',
+        'ref': 'Bakara Suresi, 153',
+      },
+      {
+        'text': '"Kim Allah\'a tevekkül ederse O ona yeter."',
+        'ref': 'Talak Suresi, 3',
+      },
+      {
+        'text': '"Şüphesiz zorlukla birlikte kolaylık vardır."',
+        'ref': 'İnşirah Suresi, 6',
+      },
+      {
+        'text': '"O, beni yaratan ve doğru yolu gösteren O\'dur."',
+        'ref': 'Şuara Suresi, 78',
       },
     ];
     final verse = verses[DateTime.now().day % verses.length];

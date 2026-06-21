@@ -9,6 +9,17 @@ import '../../features/dua/presentation/dua_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/prayer/presentation/prayer_screen.dart';
+import '../../features/kesket/presentation/kesket_screen.dart';
+import '../../features/profil/presentation/profil_screen.dart';
+import '../../features/ebced/presentation/ebced_screen.dart';
+import '../../features/pusula/presentation/pusula_screen.dart';
+import '../../features/mizac/presentation/mizac_screen.dart';
+import '../../features/mizac/presentation/mizac_sorular_screen.dart';
+import '../../features/icsel_alan/presentation/icsel_alan_screen.dart';
+import '../../features/icsel_alan/presentation/nefs_screen.dart';
+import '../../features/icsel_alan/presentation/esma_screen.dart';
+import '../../features/gunluk/presentation/gunluk_screen.dart';
+import '../../features/gunluk/presentation/gunluk_yeni_screen.dart';
 import '../services/offline_storage_service.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -19,6 +30,50 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/profil',
+        builder: (context, state) => const ProfilScreen(),
+      ),
+      GoRoute(
+        path: '/ebced',
+        builder: (context, state) => const EbcedScreen(),
+      ),
+      GoRoute(
+        path: '/pusula',
+        builder: (context, state) => const PusulaScreen(),
+      ),
+      GoRoute(
+        path: '/mizac',
+        builder: (context, state) => const MizacScreen(),
+        routes: [
+          GoRoute(
+            path: 'sorular',
+            builder: (context, state) => const MizacSorularScreen(),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/icsel_alan',
+        builder: (context, state) => const IcselAlanScreen(),
+      ),
+      GoRoute(
+        path: '/nefs',
+        builder: (context, state) => const NefsScreen(),
+      ),
+      GoRoute(
+        path: '/esma',
+        builder: (context, state) => const EsmaScreen(),
+      ),
+      GoRoute(
+        path: '/gunluk',
+        builder: (context, state) => const GunlukScreen(),
+        routes: [
+          GoRoute(
+            path: 'yeni',
+            builder: (context, state) => const GunlukYeniScreen(),
+          ),
+        ],
       ),
       ShellRoute(
         builder: (context, state, child) => MainShell(
@@ -31,6 +86,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(path: '/chat', builder: (_, __) => const ChatScreen()),
           GoRoute(path: '/mood', builder: (_, __) => const MoodScreen()),
           GoRoute(path: '/dua', builder: (_, __) => const DuaScreen()),
+          GoRoute(path: '/kesket', builder: (_, __) => const KesketScreen()),
           GoRoute(path: '/prayer', builder: (_, __) => const PrayerScreen()),
           GoRoute(path: '/settings', builder: (_, __) => const SettingsScreen()),
         ],
@@ -45,7 +101,7 @@ class MainShell extends StatelessWidget {
 
   const MainShell({super.key, required this.location, required this.child});
 
-  static const _routes = ['/', '/meditation', '/chat', '/mood', '/dua'];
+  static const _routes = ['/', '/meditation', '/kesket', '/dua', '/chat'];
 
   int get _currentIndex {
     final idx = _routes.indexOf(location);
@@ -73,19 +129,19 @@ class MainShell extends StatelessWidget {
             label: 'Meditasyon',
           ),
           NavigationDestination(
-            icon: Icon(Icons.chat_bubble_outline_rounded),
-            selectedIcon: Icon(Icons.chat_bubble_rounded),
-            label: 'AI Sohbet',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.mood_outlined),
-            selectedIcon: Icon(Icons.mood_rounded),
-            label: 'Ruh Hali',
+            icon: Icon(Icons.explore_outlined),
+            selectedIcon: Icon(Icons.explore_rounded),
+            label: 'Keşfet',
           ),
           NavigationDestination(
             icon: Icon(Icons.menu_book_outlined),
             selectedIcon: Icon(Icons.menu_book_rounded),
-            label: 'Dua',
+            label: 'Dua & Zikir',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.chat_bubble_outline_rounded),
+            selectedIcon: Icon(Icons.chat_bubble_rounded),
+            label: 'AI Sohbet',
           ),
         ],
       ),

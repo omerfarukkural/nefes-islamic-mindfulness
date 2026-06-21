@@ -5,12 +5,16 @@ class OfflineStorageService {
   static const String meditationBoxName = 'meditation_sessions';
   static const String settingsBoxName = 'app_settings';
   static const String duaBoxName = 'dua_favorites';
+  static const String dreamBoxName = 'dream_journal';
+  static const String todosBoxName = 'daily_todos';
 
   static Future<void> initializeBoxes() async {
     await Hive.openBox(moodBoxName);
     await Hive.openBox(meditationBoxName);
     await Hive.openBox(settingsBoxName);
     await Hive.openBox(duaBoxName);
+    await Hive.openBox(dreamBoxName);
+    await Hive.openBox(todosBoxName);
   }
 
   // ── Mood ──────────────────────────────────────────────────────────────────
@@ -143,6 +147,50 @@ class OfflineStorageService {
   static dynamic getSetting(String key, {dynamic defaultValue}) {
     final box = Hive.box(settingsBoxName);
     return box.get(key, defaultValue: defaultValue);
+  }
+
+  // ── Dream Journal ─────────────────────────────────────────────────────────
+
+  static Future<void> saveDreamEntry(Map<String, dynamic> entry) async {
+    final box = Hive.box(dreamBoxName);
+    await box.add(Map<String, dynamic>.from(entry));
+  }
+
+  static List<Map<String, dynamic>> getDreamEntries() {
+    final box = Hive.box(dreamBoxName);
+    return box.values
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList()
+      ..sort((a, b) => (b['date'] as String).compareTo(a['date'] as String));
+  }
+
+  static Future<void> deleteDreamEntry(int index) async {
+    final box = Hive.box(dreamBoxName);
+    await box.deleteAt(index);
+  }
+
+  // ── Daily Todos ───────────────────────────────────────────────────────────
+
+  static Future<void> saveDailyTodos(List<Map<String, dynamic>> todos) async {
+    final box = Hive.box(todosBoxName);
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+    await box.put('todos_$today', todos);
+  }
+
+  static List<Map<String, dynamic>> getDailyTodos() {
+    final box = Hive.box(todosBoxName);
+    final today = DateTime.now().toIso8601String().substring(0, 10);
+    final raw = box.get('todos_$today');
+    if (raw == null) return [];
+    return (raw as List).map((e) => Map<String, dynamic>.from(e as Map)).toList();
+  }
+
+  static Future<void> toggleTodo(int index) async {
+    final todos = getDailyTodos();
+    if (index >= 0 && index < todos.length) {
+      todos[index]['done'] = !(todos[index]['done'] as bool? ?? false);
+      await saveDailyTodos(todos);
+    }
   }
 
   // ── Onboarding ────────────────────────────────────────────────────────────
