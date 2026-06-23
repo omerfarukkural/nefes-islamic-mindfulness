@@ -18,7 +18,7 @@ class AdMobService {
   static const String _testRewardedAdUnitId =
       'ca-app-pub-3940256099942544/5224354917';
 
-  static bool _useTestAds = kDebugMode;
+  static final bool _useTestAds = kDebugMode;
 
   static String get bannerAdUnitId {
     if (_useTestAds) return _testBannerAdUnitId;

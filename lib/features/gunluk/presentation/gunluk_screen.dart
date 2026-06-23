@@ -212,8 +212,6 @@ class _GunlukScreenState extends State<GunlukScreen>
         ? dreamSymbols
         : searchDreamSymbols(_symbolSearch);
 
-    final categories = dreamCategories;
-
     return Column(
       children: [
         Padding(
