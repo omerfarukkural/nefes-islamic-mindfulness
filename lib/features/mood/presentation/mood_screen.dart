@@ -20,7 +20,12 @@ class _MoodScreenState extends State<MoodScreen> {
     {'emoji': '🙂', 'label': 'İyi', 'value': 4, 'color': Color(0xFF558B2F)},
     {'emoji': '😐', 'label': 'Normal', 'value': 3, 'color': Color(0xFFF57F17)},
     {'emoji': '😔', 'label': 'Kötü', 'value': 2, 'color': Color(0xFFE65100)},
-    {'emoji': '😢', 'label': 'Çok Kötü', 'value': 1, 'color': Color(0xFFC62828)},
+    {
+      'emoji': '😢',
+      'label': 'Çok Kötü',
+      'value': 1,
+      'color': Color(0xFFC62828)
+    },
   ];
 
   @override
@@ -38,15 +43,16 @@ class _MoodScreenState extends State<MoodScreen> {
 
   void _checkTodaySaved() {
     final today = DateTime.now().toIso8601String().substring(0, 10);
-    final todayEntry = _history.any((e) =>
-        (e['date'] as String).startsWith(today));
+    final todayEntry =
+        _history.any((e) => (e['date'] as String).startsWith(today));
     if (todayEntry) setState(() => _saved = true);
   }
 
   Map<String, dynamic>? get _todayEntry {
     final today = DateTime.now().toIso8601String().substring(0, 10);
     try {
-      return _history.firstWhere((e) => (e['date'] as String).startsWith(today));
+      return _history
+          .firstWhere((e) => (e['date'] as String).startsWith(today));
     } catch (_) {
       return null;
     }
@@ -128,8 +134,7 @@ class _MoodScreenState extends State<MoodScreen> {
       ),
       child: Row(
         children: [
-          Text(entry['emoji'] as String,
-              style: const TextStyle(fontSize: 40)),
+          Text(entry['emoji'] as String, style: const TextStyle(fontSize: 40)),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -137,8 +142,7 @@ class _MoodScreenState extends State<MoodScreen> {
               children: [
                 const Text(
                   'Bugünkü kaydın var',
-                  style: TextStyle(
-                      color: Colors.white70, fontSize: 12),
+                  style: TextStyle(color: Colors.white70, fontSize: 12),
                 ),
                 Text(
                   '${entry['label']} hissediyorsun',
@@ -401,10 +405,8 @@ class _MoodScreenState extends State<MoodScreen> {
           ),
           Text(
             dateStr,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall
-                ?.copyWith(fontSize: 10),
+            style:
+                Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10),
           ),
         ],
       ),

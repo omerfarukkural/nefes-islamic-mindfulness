@@ -221,10 +221,10 @@ class _MeditationScreenState extends State<MeditationScreen>
                 selectedColor: AppColors.primary,
                 labelStyle: TextStyle(
                   color: selected ? Colors.white : null,
-                  fontWeight:
-                      selected ? FontWeight.w700 : FontWeight.w500,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               );
             }).toList(),
           ),
@@ -310,9 +310,8 @@ class _MeditationScreenState extends State<MeditationScreen>
   Widget _buildTimerView() {
     final minutes = _remainingSeconds ~/ 60;
     final seconds = _remainingSeconds % 60;
-    final progress = _totalSeconds > 0
-        ? 1 - (_remainingSeconds / _totalSeconds)
-        : 0.0;
+    final progress =
+        _totalSeconds > 0 ? 1 - (_remainingSeconds / _totalSeconds) : 0.0;
     final isExhale = _breatheController.value >= 0.5;
 
     return Container(
@@ -416,9 +415,8 @@ class _MeditationScreenState extends State<MeditationScreen>
               ),
               const SizedBox(width: 24),
               _buildControlButton(
-                icon: _isPaused
-                    ? Icons.play_arrow_rounded
-                    : Icons.pause_rounded,
+                icon:
+                    _isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
                 color: AppColors.primary,
                 onTap: _togglePause,
                 label: _isPaused ? 'Devam' : 'Duraklat',

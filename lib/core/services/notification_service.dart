@@ -25,8 +25,7 @@ class NotificationService {
     const details = NotificationDetails(android: androidDetails);
 
     final now = DateTime.now();
-    var scheduledDate =
-        DateTime(now.year, now.month, now.day, hour, minute);
+    var scheduledDate = DateTime(now.year, now.month, now.day, hour, minute);
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }

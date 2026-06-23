@@ -128,11 +128,13 @@ class IcselAlanScreen extends StatelessWidget {
               children: stages.map((s) {
                 return Column(
                   children: [
-                    Text(s['emoji'] as String, style: const TextStyle(fontSize: 20)),
+                    Text(s['emoji'] as String,
+                        style: const TextStyle(fontSize: 20)),
                     const SizedBox(height: 4),
                     Text(
                       s['name'] as String,
-                      style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                          fontSize: 9, fontWeight: FontWeight.w500),
                     ),
                   ],
                 );
@@ -192,25 +194,29 @@ class IcselAlanScreen extends StatelessWidget {
     final practices = [
       {
         'title': 'Sabah Murâkabesi',
-        'desc': 'Sabah namazından sonra 10 dakika sessizce otur. Allah\'ın huzurunda olduğunu hissederek nefes al.',
+        'desc':
+            'Sabah namazından sonra 10 dakika sessizce otur. Allah\'ın huzurunda olduğunu hissederek nefes al.',
         'emoji': '🌅',
         'duration': '10 dk',
       },
       {
         'title': 'Akşam Muhasebesi',
-        'desc': 'Güneş batmadan önce günü değerlendir: Bugün ne yaptım? Neyi daha iyi yapabilirdim?',
+        'desc':
+            'Güneş batmadan önce günü değerlendir: Bugün ne yaptım? Neyi daha iyi yapabilirdim?',
         'emoji': '🌇',
         'duration': '5 dk',
       },
       {
         'title': 'Zikir Seansı',
-        'desc': '"La ilahe illallah" zikrini 100 kez oku, her tekrarda kalbini bu anlama aç.',
+        'desc':
+            '"La ilahe illallah" zikrini 100 kez oku, her tekrarda kalbini bu anlama aç.',
         'emoji': '📿',
         'duration': '15 dk',
       },
       {
         'title': 'Kur\'an Tefekkürü',
-        'desc': 'Günde bir ayet seç ve onunla uzun uzun kal. Sadece okuma değil, anlama ve yaşama.',
+        'desc':
+            'Günde bir ayet seç ve onunla uzun uzun kal. Sadece okuma değil, anlama ve yaşama.',
         'emoji': '📖',
         'duration': '20 dk',
       },
@@ -241,7 +247,8 @@ class IcselAlanScreen extends StatelessWidget {
                     color: const Color(0xFF1A237E).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(p['emoji']!, style: const TextStyle(fontSize: 22)),
+                  child:
+                      Text(p['emoji']!, style: const TextStyle(fontSize: 22)),
                 ),
                 const SizedBox(width: 14),
                 Expanded(
@@ -253,11 +260,13 @@ class IcselAlanScreen extends StatelessWidget {
                           Expanded(
                             child: Text(
                               p['title']!,
-                              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 14),
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
                               color: AppColors.primary.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(8),
@@ -276,7 +285,10 @@ class IcselAlanScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         p['desc']!,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(height: 1.4),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(height: 1.4),
                       ),
                     ],
                   ),

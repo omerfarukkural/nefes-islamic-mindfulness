@@ -52,7 +52,8 @@ class KesketScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildProfileBanner(BuildContext context, UserProfile profile, MizacType? mizac) {
+  Widget _buildProfileBanner(
+      BuildContext context, UserProfile profile, MizacType? mizac) {
     final name = profile.name;
     final mizacLabel = mizac != null ? mizac.label : 'Belirsiz';
     final mizacEmoji = mizac != null ? mizac.emoji : '❓';
@@ -160,7 +161,8 @@ class KesketScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.white70, size: 16),
+            const Icon(Icons.arrow_forward_ios,
+                color: Colors.white70, size: 16),
           ],
         ),
       ),

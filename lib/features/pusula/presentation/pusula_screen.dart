@@ -21,9 +21,12 @@ class PusulaScreen extends ConsumerWidget {
     String? personalYearGuidance;
 
     if (profile != null) {
-      personalYear = KozmikCalculator.personalYearNumber(profile.birthDate, now.year);
-      personalMonth = KozmikCalculator.personalMonthNumber(profile.birthDate, now);
-      personalYearGuidance = KozmikCalculator.personalYearGuidance(personalYear);
+      personalYear =
+          KozmikCalculator.personalYearNumber(profile.birthDate, now.year);
+      personalMonth =
+          KozmikCalculator.personalMonthNumber(profile.birthDate, now);
+      personalYearGuidance =
+          KozmikCalculator.personalYearGuidance(personalYear);
     }
 
     return Scaffold(
@@ -40,7 +43,8 @@ class PusulaScreen extends ConsumerWidget {
             _buildIslamicDayCard(context, islamicInfo),
             const SizedBox(height: 16),
             if (personalYear != null) ...[
-              _buildPersonalNumbersCard(context, personalYear, personalMonth!, personalYearGuidance!),
+              _buildPersonalNumbersCard(
+                  context, personalYear, personalMonth!, personalYearGuidance!),
               const SizedBox(height: 16),
             ],
             if (profile == null) _buildProfilePrompt(context),
@@ -52,7 +56,8 @@ class PusulaScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDailyEnergyCard(BuildContext context, int energy, String element, String guidance) {
+  Widget _buildDailyEnergyCard(
+      BuildContext context, int energy, String element, String guidance) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -103,14 +108,16 @@ class PusulaScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
                           element,
-                          style: const TextStyle(color: Colors.white, fontSize: 13),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 13),
                         ),
                       ),
                     ],
@@ -246,7 +253,8 @@ class PusulaScreen extends ConsumerWidget {
             ),
             child: Text(
               yearGuidance,
-              style: const TextStyle(color: Colors.white, fontSize: 13, height: 1.5),
+              style: const TextStyle(
+                  color: Colors.white, fontSize: 13, height: 1.5),
             ),
           ),
         ],

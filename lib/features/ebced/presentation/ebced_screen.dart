@@ -162,11 +162,13 @@ class _EbcedScreenState extends State<EbcedScreen>
                 runSpacing: 8,
                 children: _arabicDetailed.map((item) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color: AppColors.accent.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppColors.accent.withOpacity(0.3)),
+                      border:
+                          Border.all(color: AppColors.accent.withOpacity(0.3)),
                     ),
                     child: Column(
                       children: [
@@ -302,7 +304,8 @@ class _EbcedScreenState extends State<EbcedScreen>
           const SizedBox(height: 8),
           Text(
             body,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.5),
+            style:
+                Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.5),
           ),
         ],
       ),

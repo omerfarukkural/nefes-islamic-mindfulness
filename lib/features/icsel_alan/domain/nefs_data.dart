@@ -40,7 +40,12 @@ const List<NefsMertebesi> nefsMertebeleri = [
     esma: 'Ya Tevvab (التواب)',
     color: '#B71C1C',
     emoji: '🔴',
-    signs: ['Öfke patlamaları', 'Şehvete yenik düşme', 'Hırs ve tamah', 'Egonun baskın olması'],
+    signs: [
+      'Öfke patlamaları',
+      'Şehvete yenik düşme',
+      'Hırs ve tamah',
+      'Egonun baskın olması'
+    ],
   ),
   NefsMertebesi(
     name: 'Nefs-i Levvame',
@@ -55,7 +60,12 @@ const List<NefsMertebesi> nefsMertebeleri = [
     esma: 'Ya Afüvv (العفو)',
     color: '#E65100',
     emoji: '🟠',
-    signs: ['Hata sonrası pişmanlık', 'Vicdan azabı', 'Kendini eleştirme', 'Değişme isteği'],
+    signs: [
+      'Hata sonrası pişmanlık',
+      'Vicdan azabı',
+      'Kendini eleştirme',
+      'Değişme isteği'
+    ],
   ),
   NefsMertebesi(
     name: 'Nefs-i Mülhime',
@@ -70,7 +80,12 @@ const List<NefsMertebesi> nefsMertebeleri = [
     esma: 'Ya Nur (النور)',
     color: '#F9A825',
     emoji: '🟡',
-    signs: ['Sezgisel anlayış', 'İç ses güçleniyor', 'İyilik eğilimi', 'Manevi merak'],
+    signs: [
+      'Sezgisel anlayış',
+      'İç ses güçleniyor',
+      'İyilik eğilimi',
+      'Manevi merak'
+    ],
   ),
   NefsMertebesi(
     name: 'Nefs-i Mutmainne',
@@ -100,7 +115,12 @@ const List<NefsMertebesi> nefsMertebeleri = [
     esma: 'Ya Sabur (الصبور)',
     color: '#1565C0',
     emoji: '🔵',
-    signs: ['Her şeye rıza', 'Şikâyetin bitmesi', 'Takdire teslim', 'Derin şükür'],
+    signs: [
+      'Her şeye rıza',
+      'Şikâyetin bitmesi',
+      'Takdire teslim',
+      'Derin şükür'
+    ],
   ),
   NefsMertebesi(
     name: 'Nefs-i Mardiyye',
@@ -115,7 +135,12 @@ const List<NefsMertebesi> nefsMertebeleri = [
     esma: 'Ya Vedud (الودود)',
     color: '#6A1B9A',
     emoji: '🟣',
-    signs: ['Başkalarına şefkat', 'Gizli iyilik', 'Nefs hesabı yok', 'İhsan hali'],
+    signs: [
+      'Başkalarına şefkat',
+      'Gizli iyilik',
+      'Nefs hesabı yok',
+      'İhsan hali'
+    ],
   ),
   NefsMertebesi(
     name: 'Nefs-i Kâmile',
@@ -130,6 +155,11 @@ const List<NefsMertebesi> nefsMertebeleri = [
     esma: 'Ya Allah (الله)',
     color: '#1A237E',
     emoji: '⚪',
-    signs: ['Benliğin yok olması', 'İlahi tecelli', 'Rehberlik gücü', 'Tam teslimiyet'],
+    signs: [
+      'Benliğin yok olması',
+      'İlahi tecelli',
+      'Rehberlik gücü',
+      'Tam teslimiyet'
+    ],
   ),
 ];

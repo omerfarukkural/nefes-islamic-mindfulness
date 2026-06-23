@@ -120,9 +120,8 @@ class HomeScreen extends ConsumerWidget {
     }
 
     final name = profile?.name;
-    final displayGreeting = (name != null && name.isNotEmpty)
-        ? '$greeting, $name'
-        : greeting;
+    final displayGreeting =
+        (name != null && name.isNotEmpty) ? '$greeting, $name' : greeting;
 
     return Container(
       decoration: BoxDecoration(
@@ -213,13 +212,30 @@ class HomeScreen extends ConsumerWidget {
   Widget _buildHijriCard(BuildContext context) {
     final hijri = HijriCalendar.now();
     final monthNames = [
-      'Muharrem', 'Safer', 'Rebiülevvel', 'Rebiülahir',
-      'Cemaziyelevvel', 'Cemaziyelahir', 'Recep', 'Şaban',
-      'Ramazan', 'Şevval', 'Zilkade', 'Zilhicce',
+      'Muharrem',
+      'Safer',
+      'Rebiülevvel',
+      'Rebiülahir',
+      'Cemaziyelevvel',
+      'Cemaziyelahir',
+      'Recep',
+      'Şaban',
+      'Ramazan',
+      'Şevval',
+      'Zilkade',
+      'Zilhicce',
     ];
     final monthName = monthNames[(hijri.hMonth - 1).clamp(0, 11)];
     final now = DateTime.now();
-    final weekDays = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+    final weekDays = [
+      'Pazartesi',
+      'Salı',
+      'Çarşamba',
+      'Perşembe',
+      'Cuma',
+      'Cumartesi',
+      'Pazar'
+    ];
     final weekDay = weekDays[now.weekday - 1];
 
     return Container(
@@ -288,8 +304,18 @@ class HomeScreen extends ConsumerWidget {
 
   String _monthTR(int m) {
     const months = [
-      'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-      'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+      'Ocak',
+      'Şubat',
+      'Mart',
+      'Nisan',
+      'Mayıs',
+      'Haziran',
+      'Temmuz',
+      'Ağustos',
+      'Eylül',
+      'Ekim',
+      'Kasım',
+      'Aralık',
     ];
     return months[m - 1];
   }
@@ -355,14 +381,16 @@ class HomeScreen extends ConsumerWidget {
           ),
           GestureDetector(
             onTap: () => context.push('/pusula'),
-            child: const Icon(Icons.arrow_forward_ios, color: Colors.white54, size: 14),
+            child: const Icon(Icons.arrow_forward_ios,
+                color: Colors.white54, size: 14),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildPersonalZikirCard(BuildContext context, UserProfile profile, MizacType mizac) {
+  Widget _buildPersonalZikirCard(
+      BuildContext context, UserProfile profile, MizacType mizac) {
     final lifePathNumber = profile.lifePathNumber;
     int ebcedVal = 0;
     if (profile.arabicName.isNotEmpty) {
@@ -398,9 +426,11 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: 12),
           _buildPersonalRow('📿 Mizaç Zikirm', mizac.zikir),
           _buildPersonalRow('☪️ Esma\'m', mizac.esma),
-          _buildPersonalRow('🌟 Yaşam Yolu', '$lifePathNumber — ${EbcedService.getNumberMeaning(lifePathNumber).split('.').first}'),
+          _buildPersonalRow('🌟 Yaşam Yolu',
+              '$lifePathNumber — ${EbcedService.getNumberMeaning(lifePathNumber).split('.').first}'),
           if (ebcedVal > 0)
-            _buildPersonalRow('🔢 Ebced', '$ebcedVal — ${EbcedService.getEbcedMeaning(ebcedVal).split(' —').first}'),
+            _buildPersonalRow('🔢 Ebced',
+                '$ebcedVal — ${EbcedService.getEbcedMeaning(ebcedVal).split(' —').first}'),
         ],
       ),
     );
@@ -576,7 +606,8 @@ class HomeScreen extends ConsumerWidget {
                   gradient: AppColors.accentGradient,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(Icons.auto_stories, color: Colors.white, size: 18),
+                child: const Icon(Icons.auto_stories,
+                    color: Colors.white, size: 18),
               ),
               const SizedBox(width: 10),
               Text(
@@ -608,7 +639,8 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatsCard(BuildContext context, int streak, int minutes, int sessions) {
+  Widget _buildStatsCard(
+      BuildContext context, int streak, int minutes, int sessions) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(

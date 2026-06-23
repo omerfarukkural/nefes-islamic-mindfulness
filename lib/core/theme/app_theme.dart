@@ -49,10 +49,14 @@ class AppTheme {
     final base = dark ? Colors.white : AppColors.textPrimary;
     final secondary = dark ? Colors.white70 : AppColors.textSecondary;
     return GoogleFonts.nunitoTextTheme().copyWith(
-      displayLarge: GoogleFonts.nunito(color: base, fontWeight: FontWeight.w700),
-      displayMedium: GoogleFonts.nunito(color: base, fontWeight: FontWeight.w700),
-      headlineLarge: GoogleFonts.nunito(color: base, fontWeight: FontWeight.w700),
-      headlineMedium: GoogleFonts.nunito(color: base, fontWeight: FontWeight.w600),
+      displayLarge:
+          GoogleFonts.nunito(color: base, fontWeight: FontWeight.w700),
+      displayMedium:
+          GoogleFonts.nunito(color: base, fontWeight: FontWeight.w700),
+      headlineLarge:
+          GoogleFonts.nunito(color: base, fontWeight: FontWeight.w700),
+      headlineMedium:
+          GoogleFonts.nunito(color: base, fontWeight: FontWeight.w600),
       titleLarge: GoogleFonts.nunito(color: base, fontWeight: FontWeight.w700),
       titleMedium: GoogleFonts.nunito(color: base, fontWeight: FontWeight.w600),
       bodyLarge: GoogleFonts.nunito(color: base),
@@ -135,7 +139,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.surface,
@@ -257,7 +262,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: AppColors.primaryLight, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: TextStyle(color: Colors.white.withOpacity(0.4)),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -285,7 +291,8 @@ class AppTheme {
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) return AppColors.primaryLight;
+          if (states.contains(WidgetState.selected))
+            return AppColors.primaryLight;
           return Colors.grey.shade600;
         }),
         trackColor: WidgetStateProperty.resolveWith((states) {

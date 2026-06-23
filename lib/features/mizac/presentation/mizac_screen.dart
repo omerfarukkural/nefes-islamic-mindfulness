@@ -73,7 +73,8 @@ class MizacScreen extends ConsumerWidget {
               ),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14)),
               ),
             ),
           ),
@@ -132,11 +133,13 @@ class MizacScreen extends ConsumerWidget {
         children: [
           _buildMizacTypeCard(context, mizac),
           const SizedBox(height: 20),
-          _buildDetailSection(context, '🥗 Beslenme Önerileri', mizac.dietRecommendations),
+          _buildDetailSection(
+              context, '🥗 Beslenme Önerileri', mizac.dietRecommendations),
           const SizedBox(height: 16),
           _buildDetailSection(context, '💤 Uyku Tavsiyeleri', mizac.sleepTips),
           const SizedBox(height: 16),
-          _buildDetailSection(context, '🏃 Aktivite Önerileri', mizac.activityRecommendations),
+          _buildDetailSection(
+              context, '🏃 Aktivite Önerileri', mizac.activityRecommendations),
           const SizedBox(height: 16),
           _buildSpiritualCard(context, mizac),
           const SizedBox(height: 24),
@@ -145,7 +148,8 @@ class MizacScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildMizacTypeCard(BuildContext context, MizacType mizac, {bool dimmed = false}) {
+  Widget _buildMizacTypeCard(BuildContext context, MizacType mizac,
+      {bool dimmed = false}) {
     final color = mizac.color;
     return Container(
       padding: const EdgeInsets.all(20),
@@ -215,7 +219,8 @@ class MizacScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDetailSection(BuildContext context, String title, List<String> items) {
+  Widget _buildDetailSection(
+      BuildContext context, String title, List<String> items) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

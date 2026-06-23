@@ -21,10 +21,12 @@ class _EsmaScreenState extends State<EsmaScreen> {
     }
     if (_search.isNotEmpty) {
       final q = _search.toLowerCase();
-      list = list.where((e) =>
-          e.turkish.toLowerCase().contains(q) ||
-          e.meaning.toLowerCase().contains(q) ||
-          e.arabic.contains(_search)).toList();
+      list = list
+          .where((e) =>
+              e.turkish.toLowerCase().contains(q) ||
+              e.meaning.toLowerCase().contains(q) ||
+              e.arabic.contains(_search))
+          .toList();
     }
     return list;
   }
@@ -61,8 +63,15 @@ class _EsmaScreenState extends State<EsmaScreen> {
                   child: Row(
                     children: [
                       _buildFilterChip('Tümü', null),
-                      ...['Emmare', 'Levvame', 'Mülhime', 'Mutmainne', 'Radiyye', 'Mardiyye', 'Kâmile']
-                          .map((n) => _buildFilterChip(n, n)),
+                      ...[
+                        'Emmare',
+                        'Levvame',
+                        'Mülhime',
+                        'Mutmainne',
+                        'Radiyye',
+                        'Mardiyye',
+                        'Kâmile'
+                      ].map((n) => _buildFilterChip(n, n)),
                     ],
                   ),
                 ),
@@ -84,7 +93,8 @@ class _EsmaScreenState extends State<EsmaScreen> {
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: filtered.length,
-              itemBuilder: (context, index) => _buildEsmaCard(context, filtered[index]),
+              itemBuilder: (context, index) =>
+                  _buildEsmaCard(context, filtered[index]),
             ),
           ),
         ],
@@ -138,7 +148,8 @@ class _EsmaScreenState extends State<EsmaScreen> {
             children: [
               Text(
                 esma.arabic,
-                style: AppTheme.arabicTextStyle(fontSize: 16, color: AppColors.accent),
+                style: AppTheme.arabicTextStyle(
+                    fontSize: 16, color: AppColors.accent),
               ),
               const SizedBox(width: 8),
               Flexible(
@@ -215,7 +226,9 @@ class _EsmaScreenState extends State<EsmaScreen> {
                     child: OutlinedButton.icon(
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: '${esma.arabic} — ${esma.turkish}\nZikir: ${esma.zikirCount}x'),
+                          ClipboardData(
+                              text:
+                                  '${esma.arabic} — ${esma.turkish}\nZikir: ${esma.zikirCount}x'),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Kopyalandı')),
@@ -248,7 +261,8 @@ class _EsmaScreenState extends State<EsmaScreen> {
           Text(label, style: TextStyle(fontSize: 10, color: color)),
           Text(
             value,
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: color),
+            style: TextStyle(
+                fontWeight: FontWeight.w700, fontSize: 15, color: color),
           ),
         ],
       ),

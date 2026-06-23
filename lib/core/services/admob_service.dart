@@ -3,14 +3,20 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/foundation.dart';
 
 class AdMobService {
-  static const String _bannerAdUnitIdAndroid = 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
-  static const String _interstitialAdUnitIdAndroid = 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
-  static const String _rewardedAdUnitIdAndroid = 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
+  static const String _bannerAdUnitIdAndroid =
+      'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
+  static const String _interstitialAdUnitIdAndroid =
+      'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
+  static const String _rewardedAdUnitIdAndroid =
+      'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX';
 
   // TEST ID'leri (geliştirme sırasında kullan)
-  static const String _testBannerAdUnitId = 'ca-app-pub-3940256099942544/6300978111';
-  static const String _testInterstitialAdUnitId = 'ca-app-pub-3940256099942544/1033173712';
-  static const String _testRewardedAdUnitId = 'ca-app-pub-3940256099942544/5224354917';
+  static const String _testBannerAdUnitId =
+      'ca-app-pub-3940256099942544/6300978111';
+  static const String _testInterstitialAdUnitId =
+      'ca-app-pub-3940256099942544/1033173712';
+  static const String _testRewardedAdUnitId =
+      'ca-app-pub-3940256099942544/5224354917';
 
   static bool _useTestAds = kDebugMode;
 
@@ -22,12 +28,16 @@ class AdMobService {
 
   static String get interstitialAdUnitId {
     if (_useTestAds) return _testInterstitialAdUnitId;
-    return Platform.isAndroid ? _interstitialAdUnitIdAndroid : _testInterstitialAdUnitId;
+    return Platform.isAndroid
+        ? _interstitialAdUnitIdAndroid
+        : _testInterstitialAdUnitId;
   }
 
   static String get rewardedAdUnitId {
     if (_useTestAds) return _testRewardedAdUnitId;
-    return Platform.isAndroid ? _rewardedAdUnitIdAndroid : _testRewardedAdUnitId;
+    return Platform.isAndroid
+        ? _rewardedAdUnitIdAndroid
+        : _testRewardedAdUnitId;
   }
 
   static Future<void> initialize() async {

@@ -8,7 +8,8 @@ class ThemeNotifier extends StateNotifier<ThemeMode> {
   }
 
   void _load() {
-    final saved = OfflineStorageService.getSetting('dark_mode', defaultValue: false);
+    final saved =
+        OfflineStorageService.getSetting('dark_mode', defaultValue: false);
     state = saved == true ? ThemeMode.dark : ThemeMode.light;
   }
 

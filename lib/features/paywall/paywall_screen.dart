@@ -22,7 +22,8 @@ class PaywallScreen extends StatelessWidget {
                   color: const Color(0xFF4CAF82),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Icon(Icons.self_improvement, size: 48, color: Colors.white),
+                child: const Icon(Icons.self_improvement,
+                    size: 48, color: Colors.white),
               ),
               const SizedBox(height: 16),
               const Text(
@@ -41,10 +42,18 @@ class PaywallScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               // Özellikler
-              _FeatureRow(icon: Icons.auto_awesome, text: 'Sınırsız AI destekli zikir & dua seansları'),
-              _FeatureRow(icon: Icons.headphones, text: '200+ rehberli meditasyon (Türkçe & Arapça)'),
-              _FeatureRow(icon: Icons.bar_chart, text: 'Gelişmiş ruh hali takibi ve raporları'),
-              _FeatureRow(icon: Icons.book, text: 'Kişiselleştirilmiş Kuran okuma planı'),
+              _FeatureRow(
+                  icon: Icons.auto_awesome,
+                  text: 'Sınırsız AI destekli zikir & dua seansları'),
+              _FeatureRow(
+                  icon: Icons.headphones,
+                  text: '200+ rehberli meditasyon (Türkçe & Arapça)'),
+              _FeatureRow(
+                  icon: Icons.bar_chart,
+                  text: 'Gelişmiş ruh hali takibi ve raporları'),
+              _FeatureRow(
+                  icon: Icons.book,
+                  text: 'Kişiselleştirilmiş Kuran okuma planı'),
               _FeatureRow(icon: Icons.block, text: 'Reklamsız deneyim'),
               const Spacer(),
               // Abonelik seçenekleri
@@ -103,7 +112,9 @@ class _FeatureRow extends StatelessWidget {
         children: [
           Icon(icon, color: const Color(0xFF4CAF82), size: 20),
           const SizedBox(width: 12),
-          Expanded(child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 14))),
+          Expanded(
+              child: Text(text,
+                  style: const TextStyle(color: Colors.white, fontSize: 14))),
         ],
       ),
     );
@@ -133,11 +144,10 @@ class _PricingCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isHighlighted ? const Color(0xFF4CAF82) : const Color(0xFF1E2D3D),
+          color:
+              isHighlighted ? const Color(0xFF4CAF82) : const Color(0xFF1E2D3D),
           borderRadius: BorderRadius.circular(16),
-          border: isHighlighted
-              ? null
-              : Border.all(color: Colors.white24),
+          border: isHighlighted ? null : Border.all(color: Colors.white24),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

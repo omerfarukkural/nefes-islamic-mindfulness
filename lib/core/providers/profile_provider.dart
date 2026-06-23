@@ -33,5 +33,5 @@ class ProfileNotifier extends StateNotifier<UserProfile?> {
   }
 }
 
-final profileProvider =
-    StateNotifierProvider<ProfileNotifier, UserProfile?>((ref) => ProfileNotifier());
+final profileProvider = StateNotifierProvider<ProfileNotifier, UserProfile?>(
+    (ref) => ProfileNotifier());

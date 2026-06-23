@@ -82,13 +82,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ),
         routes: [
           GoRoute(path: '/', builder: (_, __) => const HomeScreen()),
-          GoRoute(path: '/meditation', builder: (_, __) => const MeditationScreen()),
+          GoRoute(
+              path: '/meditation',
+              builder: (_, __) => const MeditationScreen()),
           GoRoute(path: '/chat', builder: (_, __) => const ChatScreen()),
           GoRoute(path: '/mood', builder: (_, __) => const MoodScreen()),
           GoRoute(path: '/dua', builder: (_, __) => const DuaScreen()),
           GoRoute(path: '/kesket', builder: (_, __) => const KesketScreen()),
           GoRoute(path: '/prayer', builder: (_, __) => const PrayerScreen()),
-          GoRoute(path: '/settings', builder: (_, __) => const SettingsScreen()),
+          GoRoute(
+              path: '/settings', builder: (_, __) => const SettingsScreen()),
         ],
       ),
     ],

@@ -67,17 +67,15 @@ class PurchaseService {
   }
 
   static Future<void> _buyProduct(String productId) async {
-    final ProductDetails? product = _products
-        .where((p) => p.id == productId)
-        .firstOrNull;
+    final ProductDetails? product =
+        _products.where((p) => p.id == productId).firstOrNull;
 
     if (product == null) {
       debugPrint('Ürün bulunamadı: $productId');
       return;
     }
 
-    final PurchaseParam purchaseParam =
-        PurchaseParam(productDetails: product);
+    final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
 
     if (productId == _lifetimeId) {
       await _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
@@ -123,20 +121,17 @@ class PurchaseService {
 
   // Fiyat bilgisi al
   static String getMonthlyPrice() {
-    return _products
-        .where((p) => p.id == _monthlySubId)
-        .firstOrNull?.price ?? '₺79,99';
+    return _products.where((p) => p.id == _monthlySubId).firstOrNull?.price ??
+        '₺79,99';
   }
 
   static String getYearlyPrice() {
-    return _products
-        .where((p) => p.id == _yearlySubId)
-        .firstOrNull?.price ?? '₺399,99';
+    return _products.where((p) => p.id == _yearlySubId).firstOrNull?.price ??
+        '₺399,99';
   }
 
   static String getLifetimePrice() {
-    return _products
-        .where((p) => p.id == _lifetimeId)
-        .firstOrNull?.price ?? '₺999,99';
+    return _products.where((p) => p.id == _lifetimeId).firstOrNull?.price ??
+        '₺999,99';
   }
 }

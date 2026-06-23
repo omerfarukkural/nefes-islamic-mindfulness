@@ -173,9 +173,7 @@ class _ChatScreenState extends State<ChatScreen> {
           maxWidth: MediaQuery.of(context).size.width * 0.75,
         ),
         decoration: BoxDecoration(
-          color: message.isUser
-              ? AppColors.primary
-              : AppColors.surface,
+          color: message.isUser ? AppColors.primary : AppColors.surface,
           borderRadius: BorderRadius.circular(16).copyWith(
             bottomRight: message.isUser ? Radius.zero : null,
             bottomLeft: !message.isUser ? Radius.zero : null,
@@ -239,8 +237,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   borderRadius: BorderRadius.circular(24),
                   borderSide: BorderSide.none,
                 ),
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 10),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => _sendMessage(),

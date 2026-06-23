@@ -26,9 +26,17 @@ class KozmikCalculator {
 
   static String elementOfNumber(int n) {
     const elements = {
-      1: 'Ateş 🔥', 2: 'Su 💧', 3: 'Hava 🌬️', 4: 'Toprak 🌿',
-      5: 'Ateş 🔥', 6: 'Su 💧', 7: 'Hava 🌬️', 8: 'Toprak 🌿',
-      9: 'Ateş 🔥', 11: 'Işık ✨', 22: 'Evren 🌌',
+      1: 'Ateş 🔥',
+      2: 'Su 💧',
+      3: 'Hava 🌬️',
+      4: 'Toprak 🌿',
+      5: 'Ateş 🔥',
+      6: 'Su 💧',
+      7: 'Hava 🌬️',
+      8: 'Toprak 🌿',
+      9: 'Ateş 🔥',
+      11: 'Işık ✨',
+      22: 'Evren 🌌',
     };
     return elements[n] ?? 'Ateş 🔥';
   }
@@ -54,20 +62,40 @@ class KozmikCalculator {
     final hijri = HijriCalendar.now();
     final weekday = date.weekday; // 1=Mon, 7=Sun
     const planets = {
-      1: 'Ay', 2: 'Mars', 3: 'Merkür', 4: 'Jüpiter',
-      5: 'Venüs', 6: 'Satürn', 7: 'Güneş',
+      1: 'Ay',
+      2: 'Mars',
+      3: 'Merkür',
+      4: 'Jüpiter',
+      5: 'Venüs',
+      6: 'Satürn',
+      7: 'Güneş',
     };
     const colors = {
-      1: 'Gümüş / Beyaz', 2: 'Kırmızı', 3: 'Sarı',
-      4: 'Mor / Mavi', 5: 'Yeşil', 6: 'Siyah / Koyu Mavi', 7: 'Altın / Sarı',
+      1: 'Gümüş / Beyaz',
+      2: 'Kırmızı',
+      3: 'Sarı',
+      4: 'Mor / Mavi',
+      5: 'Yeşil',
+      6: 'Siyah / Koyu Mavi',
+      7: 'Altın / Sarı',
     };
     const dhikrs = {
-      1: 'Salavat-ı Şerife', 2: 'İstiğfar', 3: 'Kelime-i Tevhid',
-      4: 'Tesbih (Sübhanallah)', 5: 'Şükür Duası', 6: 'Tövbe Duası', 7: 'Tehlil',
+      1: 'Salavat-ı Şerife',
+      2: 'İstiğfar',
+      3: 'Kelime-i Tevhid',
+      4: 'Tesbih (Sübhanallah)',
+      5: 'Şükür Duası',
+      6: 'Tövbe Duası',
+      7: 'Tehlil',
     };
     const dayNames = {
-      1: 'Pazartesi (İsneyn)', 2: 'Salı (Selasa)', 3: 'Çarşamba (Erbia)',
-      4: 'Perşembe (Hamis)', 5: 'Cuma (Cuma)', 6: 'Cumartesi (Sebt)', 7: 'Pazar (Ahad)',
+      1: 'Pazartesi (İsneyn)',
+      2: 'Salı (Selasa)',
+      3: 'Çarşamba (Erbia)',
+      4: 'Perşembe (Hamis)',
+      5: 'Cuma (Cuma)',
+      6: 'Cumartesi (Sebt)',
+      7: 'Pazar (Ahad)',
     };
     return {
       'hicri': '${hijri.hDay} ${_hijriMonthName(hijri.hMonth)} ${hijri.hYear}',
@@ -80,9 +108,18 @@ class KozmikCalculator {
 
   static String _hijriMonthName(int m) {
     const names = [
-      'Muharrem', 'Safer', 'Rebiülevvel', 'Rebiülahir',
-      'Cemaziyelevvel', 'Cemaziyelahir', 'Recep', 'Şaban',
-      'Ramazan', 'Şevval', 'Zilkade', 'Zilhicce',
+      'Muharrem',
+      'Safer',
+      'Rebiülevvel',
+      'Rebiülahir',
+      'Cemaziyelevvel',
+      'Cemaziyelahir',
+      'Recep',
+      'Şaban',
+      'Ramazan',
+      'Şevval',
+      'Zilkade',
+      'Zilhicce',
     ];
     return names[(m - 1).clamp(0, 11)];
   }

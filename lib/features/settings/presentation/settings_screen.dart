@@ -21,13 +21,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   void initState() {
     super.initState();
     _meditationReminder = OfflineStorageService.getSetting(
-            'meditation_reminder', defaultValue: true) ==
+            'meditation_reminder',
+            defaultValue: true) ==
         true;
-    _prayerReminder = OfflineStorageService.getSetting(
-            'prayer_reminder', defaultValue: false) ==
+    _prayerReminder = OfflineStorageService.getSetting('prayer_reminder',
+            defaultValue: false) ==
         true;
-    _reminderTime = OfflineStorageService.getSetting(
-            'reminder_time', defaultValue: '08:00') as String;
+    _reminderTime =
+        OfflineStorageService.getSetting('reminder_time', defaultValue: '08:00')
+            as String;
   }
 
   Future<void> _setMeditationReminder(bool v) async {
@@ -79,9 +81,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           // ── Görünüm ────────────────────────────────────────────
           _buildSection('Görünüm', [
             _buildToggleTile(
-              icon: isDark
-                  ? Icons.light_mode_rounded
-                  : Icons.dark_mode_rounded,
+              icon: isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
               iconColor: isDark ? AppColors.accent : AppColors.primary,
               title: 'Karanlık Mod',
               subtitle: isDark ? 'Aktif' : 'Kapalı',
@@ -103,8 +103,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             _buildDivider(),
             ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 4),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 4),
               leading: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -128,8 +127,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               subtitle: 'Yakında geliyor',
               value: _prayerReminder,
               onChanged: (v) async {
-                await OfflineStorageService.saveSetting(
-                    'prayer_reminder', v);
+                await OfflineStorageService.saveSetting('prayer_reminder', v);
                 setState(() => _prayerReminder = v);
               },
             ),
@@ -162,15 +160,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         ),
                         const Text(
                           'Reklamsız + tüm içerikler',
-                          style: TextStyle(
-                              color: Colors.white70, fontSize: 12),
+                          style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -200,8 +197,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   color: AppColors.primary.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child:
-                    const Icon(Icons.info_outline, color: AppColors.primary, size: 20),
+                child: const Icon(Icons.info_outline,
+                    color: AppColors.primary, size: 20),
               ),
               title: const Text('Versiyon',
                   style: TextStyle(fontWeight: FontWeight.w600)),
@@ -280,8 +277,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
         child: Icon(icon, color: iconColor, size: 20),
       ),
-      title: Text(title,
-          style: const TextStyle(fontWeight: FontWeight.w600)),
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
       subtitle: Text(subtitle),
       trailing: Switch(
         value: value,

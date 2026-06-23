@@ -31,8 +31,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
   @override
   void initState() {
     super.initState();
-    _params = CalculationMethod.turkey.getParameters()
-      ..madhab = Madhab.hanafi;
+    _params = CalculationMethod.turkey.getParameters()..madhab = Madhab.hanafi;
     _coordinates = Coordinates(41.0082, 28.9784);
     _calculate();
   }
@@ -83,9 +82,18 @@ class _PrayerScreenState extends State<PrayerScreen> {
   Widget build(BuildContext context) {
     final hijri = HijriCalendar.now();
     final monthNames = [
-      'Muharrem', 'Safer', 'Rebiülevvel', 'Rebiülahir',
-      'Cemaziyelevvel', 'Cemaziyelahir', 'Recep', 'Şaban',
-      'Ramazan', 'Şevval', 'Zilkade', 'Zilhicce',
+      'Muharrem',
+      'Safer',
+      'Rebiülevvel',
+      'Rebiülahir',
+      'Cemaziyelevvel',
+      'Cemaziyelahir',
+      'Recep',
+      'Şaban',
+      'Ramazan',
+      'Şevval',
+      'Zilkade',
+      'Zilhicce',
     ];
     final hijriMonth = monthNames[(hijri.hMonth - 1).clamp(0, 11)];
 
@@ -173,18 +181,18 @@ class _PrayerScreenState extends State<PrayerScreen> {
             const SizedBox(height: 20),
             // Prayer list
             if (_prayerTimes != null) ...[
-              _buildPrayerTile('İmsak (Sabah)',
-                  _prayerTimes!.fajr, Icons.brightness_3_rounded),
-              _buildPrayerTile('Güneş',
-                  _prayerTimes!.sunrise, Icons.wb_sunny_rounded),
-              _buildPrayerTile('Öğle',
-                  _prayerTimes!.dhuhr, Icons.light_mode_rounded),
-              _buildPrayerTile('İkindi',
-                  _prayerTimes!.asr, Icons.wb_cloudy_rounded),
-              _buildPrayerTile('Akşam',
-                  _prayerTimes!.maghrib, Icons.nights_stay_rounded),
-              _buildPrayerTile('Yatsı',
-                  _prayerTimes!.isha, Icons.bedtime_rounded),
+              _buildPrayerTile('İmsak (Sabah)', _prayerTimes!.fajr,
+                  Icons.brightness_3_rounded),
+              _buildPrayerTile(
+                  'Güneş', _prayerTimes!.sunrise, Icons.wb_sunny_rounded),
+              _buildPrayerTile(
+                  'Öğle', _prayerTimes!.dhuhr, Icons.light_mode_rounded),
+              _buildPrayerTile(
+                  'İkindi', _prayerTimes!.asr, Icons.wb_cloudy_rounded),
+              _buildPrayerTile(
+                  'Akşam', _prayerTimes!.maghrib, Icons.nights_stay_rounded),
+              _buildPrayerTile(
+                  'Yatsı', _prayerTimes!.isha, Icons.bedtime_rounded),
             ],
             const SizedBox(height: 16),
             _buildCitySelector(),
@@ -203,11 +211,9 @@ class _PrayerScreenState extends State<PrayerScreen> {
     );
   }
 
-  Widget _buildPrayerTile(
-      String name, DateTime time, IconData icon) {
+  Widget _buildPrayerTile(String name, DateTime time, IconData icon) {
     final now = DateTime.now();
-    final isNext = _nextPrayerName != null &&
-        name.startsWith(_nextPrayerName!);
+    final isNext = _nextPrayerName != null && name.startsWith(_nextPrayerName!);
     final isPast = time.isBefore(now);
 
     return Container(
@@ -234,8 +240,7 @@ class _PrayerScreenState extends State<PrayerScreen> {
             : [],
       ),
       child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
         leading: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(

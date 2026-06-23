@@ -20,8 +20,7 @@ class _DuaScreenState extends State<DuaScreen>
       'arabic': 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ',
       'turkish':
           'Biz sabaha ulaştık, mülk de Allah\'a ait olarak sabaha ulaştı.',
-      'transliteration':
-          'Asbahna ve asbahal-mülkü lillah.',
+      'transliteration': 'Asbahna ve asbahal-mülkü lillah.',
       'source': 'Müslim',
       'category': 'Günlük',
     },
@@ -55,12 +54,9 @@ class _DuaScreenState extends State<DuaScreen>
     },
     {
       'title': 'Kaygı & Stres Duası',
-      'arabic':
-          'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ',
-      'turkish':
-          'Allah\'ım! Sıkıntıdan ve üzüntüden sana sığınırım.',
-      'transliteration':
-          'Allahumme inni euzü bike minel hemmi vel hazen.',
+      'arabic': 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ',
+      'turkish': 'Allah\'ım! Sıkıntıdan ve üzüntüden sana sığınırım.',
+      'transliteration': 'Allahumme inni euzü bike minel hemmi vel hazen.',
       'source': 'Buhari',
       'category': 'Dua',
     },
@@ -74,23 +70,18 @@ class _DuaScreenState extends State<DuaScreen>
     },
     {
       'title': 'Şükür Duası',
-      'arabic':
-          'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا',
-      'turkish':
-          'Bizi öldürdükten sonra dirilten Allah\'a hamd olsun.',
-      'transliteration':
-          'Elhamdüllillahillezi ahyana bade ma ematena.',
+      'arabic': 'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا',
+      'turkish': 'Bizi öldürdükten sonra dirilten Allah\'a hamd olsun.',
+      'transliteration': 'Elhamdüllillahillezi ahyana bade ma ematena.',
       'source': 'Buhari',
       'category': 'Günlük',
     },
     {
       'title': 'Sabır Duası',
-      'arabic':
-          'رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ',
+      'arabic': 'رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ',
       'turkish':
           'Rabbimiz! Üzerimize sabır yağdır ve bizi Müslüman olarak öldür.',
-      'transliteration':
-          'Rabbena efrığ aleyna sabran ve teveffena müslimin.',
+      'transliteration': 'Rabbena efrığ aleyna sabran ve teveffena müslimin.',
       'source': 'A\'raf, 126',
       'category': 'Dua',
     },
@@ -121,7 +112,9 @@ class _DuaScreenState extends State<DuaScreen>
           indicatorWeight: 3,
           tabs: const [
             Tab(text: 'Dualar', icon: Icon(Icons.menu_book_rounded, size: 18)),
-            Tab(text: 'Zikir', icon: Icon(Icons.radio_button_checked, size: 18)),
+            Tab(
+                text: 'Zikir',
+                icon: Icon(Icons.radio_button_checked, size: 18)),
           ],
         ),
       ),
@@ -169,7 +162,9 @@ class _DualarTabState extends State<_DualarTab> {
 
   List<Map<String, String>> get _filtered {
     if (_filter == 'Favoriler') {
-      return widget.dualar.where((d) => _favorites.contains(d['title'])).toList();
+      return widget.dualar
+          .where((d) => _favorites.contains(d['title']))
+          .toList();
     }
     return widget.dualar;
   }
@@ -240,8 +235,8 @@ class _DualarTabState extends State<_DualarTab> {
             color: AppColors.primary.withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child:
-              const Icon(Icons.menu_book_rounded, color: AppColors.primary, size: 20),
+          child: const Icon(Icons.menu_book_rounded,
+              color: AppColors.primary, size: 20),
         ),
         title: Text(dua['title']!,
             style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
@@ -274,8 +269,8 @@ class _DualarTabState extends State<_DualarTab> {
                       ],
                     ),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                        color: AppColors.accent.withOpacity(0.2)),
+                    border:
+                        Border.all(color: AppColors.accent.withOpacity(0.2)),
                   ),
                   child: Text(
                     dua['arabic']!,
@@ -290,8 +285,7 @@ class _DualarTabState extends State<_DualarTab> {
                 const SizedBox(height: 12),
                 Text(
                   dua['turkish']!,
-                  style: const TextStyle(
-                      fontSize: 14, height: 1.5),
+                  style: const TextStyle(fontSize: 14, height: 1.5),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 4),
@@ -474,8 +468,7 @@ class _ZikirTabState extends State<_ZikirTab> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final progress = _target > 0 ? (_count % (_target + 1)) / _target : 0.0;
     final rounds = _count ~/ _target;
-    final currentZ =
-        _zikirler.firstWhere((z) => z['name'] == _selectedZikir);
+    final currentZ = _zikirler.firstWhere((z) => z['name'] == _selectedZikir);
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -516,8 +509,7 @@ class _ZikirTabState extends State<_ZikirTab> with TickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  const Icon(Icons.swap_vert_rounded,
-                      color: Colors.white70),
+                  const Icon(Icons.swap_vert_rounded, color: Colors.white70),
                 ],
               ),
             ),
@@ -533,8 +525,7 @@ class _ZikirTabState extends State<_ZikirTab> with TickerProviderStateMixin {
                 child: CircularProgressIndicator(
                   value: progress,
                   strokeWidth: 10,
-                  backgroundColor:
-                      AppColors.primary.withOpacity(0.1),
+                  backgroundColor: AppColors.primary.withOpacity(0.1),
                   valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                   strokeCap: StrokeCap.round,
                 ),
@@ -639,8 +630,7 @@ class _ZikirTabState extends State<_ZikirTab> with TickerProviderStateMixin {
                         color: AppColors.primary, size: 20),
                   ),
                   title: Text(z['name'] as String,
-                      style:
-                          const TextStyle(fontWeight: FontWeight.w600)),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                   subtitle: Text(
                     '${z['arabic']}  •  Hedef: ${z['target']}',
                     style: TextStyle(color: Colors.grey.shade500),

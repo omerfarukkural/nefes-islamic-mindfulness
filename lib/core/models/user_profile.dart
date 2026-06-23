@@ -47,7 +47,8 @@ class UserProfile {
   }
 
   int get lifePathNumber {
-    final digits = birthDate.toIso8601String().substring(0, 10).replaceAll('-', '');
+    final digits =
+        birthDate.toIso8601String().substring(0, 10).replaceAll('-', '');
     return _reduce(digits.split('').map(int.parse).reduce((a, b) => a + b));
   }
 

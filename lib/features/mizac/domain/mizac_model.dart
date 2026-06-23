@@ -5,46 +5,66 @@ enum MizacType { dem, safra, balgam, sevda }
 extension MizacTypeExt on MizacType {
   String get label {
     switch (this) {
-      case MizacType.dem: return 'Dem (Kanlı)';
-      case MizacType.safra: return 'Safra (Sinirli)';
-      case MizacType.balgam: return 'Balgam (Ağırkanlı)';
-      case MizacType.sevda: return 'Sevda (Melankolik)';
+      case MizacType.dem:
+        return 'Dem (Kanlı)';
+      case MizacType.safra:
+        return 'Safra (Sinirli)';
+      case MizacType.balgam:
+        return 'Balgam (Ağırkanlı)';
+      case MizacType.sevda:
+        return 'Sevda (Melankolik)';
     }
   }
 
   String get element {
     switch (this) {
-      case MizacType.dem: return 'Hava';
-      case MizacType.safra: return 'Ateş';
-      case MizacType.balgam: return 'Su';
-      case MizacType.sevda: return 'Toprak';
+      case MizacType.dem:
+        return 'Hava';
+      case MizacType.safra:
+        return 'Ateş';
+      case MizacType.balgam:
+        return 'Su';
+      case MizacType.sevda:
+        return 'Toprak';
     }
   }
 
   String get season {
     switch (this) {
-      case MizacType.dem: return 'İlkbahar';
-      case MizacType.safra: return 'Yaz';
-      case MizacType.balgam: return 'Kış';
-      case MizacType.sevda: return 'Sonbahar';
+      case MizacType.dem:
+        return 'İlkbahar';
+      case MizacType.safra:
+        return 'Yaz';
+      case MizacType.balgam:
+        return 'Kış';
+      case MizacType.sevda:
+        return 'Sonbahar';
     }
   }
 
   String get emoji {
     switch (this) {
-      case MizacType.dem: return '🌸';
-      case MizacType.safra: return '🔥';
-      case MizacType.balgam: return '💧';
-      case MizacType.sevda: return '🍂';
+      case MizacType.dem:
+        return '🌸';
+      case MizacType.safra:
+        return '🔥';
+      case MizacType.balgam:
+        return '💧';
+      case MizacType.sevda:
+        return '🍂';
     }
   }
 
   Color get color {
     switch (this) {
-      case MizacType.dem: return const Color(0xFFE91E63);
-      case MizacType.safra: return const Color(0xFFFF6F00);
-      case MizacType.balgam: return const Color(0xFF0288D1);
-      case MizacType.sevda: return const Color(0xFF5D4037);
+      case MizacType.dem:
+        return const Color(0xFFE91E63);
+      case MizacType.safra:
+        return const Color(0xFFFF6F00);
+      case MizacType.balgam:
+        return const Color(0xFF0288D1);
+      case MizacType.sevda:
+        return const Color(0xFF5D4037);
     }
   }
 
@@ -63,19 +83,27 @@ extension MizacTypeExt on MizacType {
 
   String get esma {
     switch (this) {
-      case MizacType.dem: return 'Ya Latif (33)';
-      case MizacType.safra: return 'Ya Sabur (298)';
-      case MizacType.balgam: return 'Ya Hayy (18)';
-      case MizacType.sevda: return 'Ya Şafi (506)';
+      case MizacType.dem:
+        return 'Ya Latif (33)';
+      case MizacType.safra:
+        return 'Ya Sabur (298)';
+      case MizacType.balgam:
+        return 'Ya Hayy (18)';
+      case MizacType.sevda:
+        return 'Ya Şafi (506)';
     }
   }
 
   String get zikir {
     switch (this) {
-      case MizacType.dem: return 'Elhamdülillah (100)';
-      case MizacType.safra: return 'Sübhanallah (300)';
-      case MizacType.balgam: return 'La ilahe illallah (100)';
-      case MizacType.sevda: return 'Allahü Ekber (100)';
+      case MizacType.dem:
+        return 'Elhamdülillah (100)';
+      case MizacType.safra:
+        return 'Sübhanallah (300)';
+      case MizacType.balgam:
+        return 'La ilahe illallah (100)';
+      case MizacType.sevda:
+        return 'Allahü Ekber (100)';
     }
   }
 
@@ -150,11 +178,20 @@ extension MizacTypeExt on MizacType {
       case MizacType.dem:
         return ['Yüzme, bisiklet, grup sporları', 'Dans ve ritimli hareketler'];
       case MizacType.safra:
-        return ['Yoğa, tai chi, yürüyüş', 'Güreş ve rekabetçi sporlardan kaçın'];
+        return [
+          'Yoğa, tai chi, yürüyüş',
+          'Güreş ve rekabetçi sporlardan kaçın'
+        ];
       case MizacType.balgam:
-        return ['Koşu, zumba, ağırlık antrenmanı', 'Her gün en az 30 dk aktif ol'];
+        return [
+          'Koşu, zumba, ağırlık antrenmanı',
+          'Her gün en az 30 dk aktif ol'
+        ];
       case MizacType.sevda:
-        return ['Pilates, yürüyüş, doğa yürüyüşleri', 'Sosyal aktiviteler ruh halini iyileştirir'];
+        return [
+          'Pilates, yürüyüş, doğa yürüyüşleri',
+          'Sosyal aktiviteler ruh halini iyileştirir'
+        ];
     }
   }
 

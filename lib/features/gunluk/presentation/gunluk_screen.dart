@@ -103,7 +103,8 @@ class _GunlukScreenState extends State<GunlukScreen>
     );
   }
 
-  Widget _buildDreamCard(BuildContext context, Map<String, dynamic> entry, int index) {
+  Widget _buildDreamCard(
+      BuildContext context, Map<String, dynamic> entry, int index) {
     final date = entry['date'] as String? ?? '';
     final title = entry['title'] as String? ?? 'Rüya';
     final content = entry['content'] as String? ?? '';
@@ -135,7 +136,8 @@ class _GunlukScreenState extends State<GunlukScreen>
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 15),
                       ),
                       Text(
                         date,
@@ -150,7 +152,9 @@ class _GunlukScreenState extends State<GunlukScreen>
                   onSelected: (value) async {
                     if (value == 'delete') {
                       await OfflineStorageService.deleteDreamEntry(
-                        OfflineStorageService.getDreamEntries().length - 1 - index,
+                        OfflineStorageService.getDreamEntries().length -
+                            1 -
+                            index,
                       );
                       setState(() {});
                     }
@@ -160,7 +164,8 @@ class _GunlukScreenState extends State<GunlukScreen>
                       value: 'delete',
                       child: Row(
                         children: [
-                          Icon(Icons.delete_outline, color: Colors.red, size: 18),
+                          Icon(Icons.delete_outline,
+                              color: Colors.red, size: 18),
                           SizedBox(width: 8),
                           Text('Sil', style: TextStyle(color: Colors.red)),
                         ],
@@ -185,7 +190,8 @@ class _GunlukScreenState extends State<GunlukScreen>
                 spacing: 6,
                 children: symbols.take(4).map((s) {
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       color: const Color(0xFF37474F).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20),
@@ -235,14 +241,18 @@ class _GunlukScreenState extends State<GunlukScreen>
               final symbol = symbols[index];
               return Card(
                 margin: const EdgeInsets.only(bottom: 8),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
                 child: Theme(
-                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                  data: Theme.of(context)
+                      .copyWith(dividerColor: Colors.transparent),
                   child: ExpansionTile(
-                    leading: Text(symbol.emoji, style: const TextStyle(fontSize: 24)),
+                    leading: Text(symbol.emoji,
+                        style: const TextStyle(fontSize: 24)),
                     title: Text(
                       symbol.symbol,
-                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 14),
                     ),
                     subtitle: Text(
                       symbol.category,
@@ -285,7 +295,8 @@ class _GunlukScreenState extends State<GunlukScreen>
     );
   }
 
-  Widget _buildSymbolSection(BuildContext context, String title, String content, Color color) {
+  Widget _buildSymbolSection(
+      BuildContext context, String title, String content, Color color) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -297,7 +308,8 @@ class _GunlukScreenState extends State<GunlukScreen>
         children: [
           Text(
             title,
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 12, color: color),
+            style: TextStyle(
+                fontWeight: FontWeight.w700, fontSize: 12, color: color),
           ),
           const SizedBox(height: 4),
           Text(content, style: const TextStyle(fontSize: 13, height: 1.4)),

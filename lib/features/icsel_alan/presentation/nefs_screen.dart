@@ -24,7 +24,8 @@ class NefsScreen extends StatelessWidget {
   }
 
   Widget _buildNefsCard(BuildContext context, NefsMertebesi nefs) {
-    final color = Color(int.parse(nefs.color.replaceFirst('#', 'FF'), radix: 16));
+    final color =
+        Color(int.parse(nefs.color.replaceFirst('#', 'FF'), radix: 16));
 
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -60,7 +61,8 @@ class NefsScreen extends StatelessWidget {
         ),
         subtitle: Text(
           nefs.arabicName,
-          style: AppTheme.arabicTextStyle(fontSize: 15, color: color.withOpacity(0.8)),
+          style: AppTheme.arabicTextStyle(
+              fontSize: 15, color: color.withOpacity(0.8)),
         ),
         children: [
           Padding(
@@ -75,7 +77,8 @@ class NefsScreen extends StatelessWidget {
                   style: const TextStyle(height: 1.5, fontSize: 14),
                 ),
                 const SizedBox(height: 14),
-                _buildInfoRow('📖 Ayet', nefs.quranVerse, '(${nefs.quranSource})'),
+                _buildInfoRow(
+                    '📖 Ayet', nefs.quranVerse, '(${nefs.quranSource})'),
                 const SizedBox(height: 10),
                 _buildInfoRow('☪️ Esma', nefs.esma, ''),
                 const SizedBox(height: 14),
@@ -112,7 +115,8 @@ class NefsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSignsSection(BuildContext context, List<String> signs, Color color) {
+  Widget _buildSignsSection(
+      BuildContext context, List<String> signs, Color color) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -134,7 +138,8 @@ class NefsScreen extends StatelessWidget {
               ),
               child: Text(
                 s,
-                style: TextStyle(fontSize: 12, color: color, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                    fontSize: 12, color: color, fontWeight: FontWeight.w500),
               ),
             );
           }).toList(),
@@ -143,7 +148,8 @@ class NefsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPracticeCard(BuildContext context, String practice, Color color) {
+  Widget _buildPracticeCard(
+      BuildContext context, String practice, Color color) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(

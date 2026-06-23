@@ -114,7 +114,8 @@ class _MizacSorularScreenState extends ConsumerState<MizacSorularScreen> {
                               width: 32,
                               height: 32,
                               decoration: BoxDecoration(
-                                border: Border.all(color: AppColors.primary, width: 2),
+                                border: Border.all(
+                                    color: AppColors.primary, width: 2),
                                 shape: BoxShape.circle,
                               ),
                               child: Center(
@@ -131,7 +132,8 @@ class _MizacSorularScreenState extends ConsumerState<MizacSorularScreen> {
                             Expanded(
                               child: Text(
                                 answer,
-                                style: const TextStyle(fontSize: 15, height: 1.3),
+                                style:
+                                    const TextStyle(fontSize: 15, height: 1.3),
                               ),
                             ),
                           ],
@@ -198,7 +200,8 @@ class _MizacSorularScreenState extends ConsumerState<MizacSorularScreen> {
                   ),
                   child: Text(
                     mizac.description,
-                    style: const TextStyle(color: Colors.white, height: 1.5, fontSize: 14),
+                    style: const TextStyle(
+                        color: Colors.white, height: 1.5, fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -214,7 +217,8 @@ class _MizacSorularScreenState extends ConsumerState<MizacSorularScreen> {
                 backgroundColor: color,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14)),
               ),
               child: const Text(
                 'Mizacımı Kaydet',

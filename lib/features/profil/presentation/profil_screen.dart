@@ -98,7 +98,10 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (_editing) _buildEditForm(context) else _buildProfileView(context, profile!, mizac),
+            if (_editing)
+              _buildEditForm(context)
+            else
+              _buildProfileView(context, profile!, mizac),
             if (!_editing && profile != null) ...[
               const SizedBox(height: 24),
               _buildPersonalNumbers(context, profile),
@@ -200,8 +203,14 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
         const SizedBox(height: 8),
         SegmentedButton<String>(
           segments: const [
-            ButtonSegment(value: 'Erkek', label: Text('Erkek'), icon: Icon(Icons.male_rounded)),
-            ButtonSegment(value: 'Kadın', label: Text('Kadın'), icon: Icon(Icons.female_rounded)),
+            ButtonSegment(
+                value: 'Erkek',
+                label: Text('Erkek'),
+                icon: Icon(Icons.male_rounded)),
+            ButtonSegment(
+                value: 'Kadın',
+                label: Text('Kadın'),
+                icon: Icon(Icons.female_rounded)),
           ],
           selected: {_gender},
           onSelectionChanged: (s) => setState(() => _gender = s.first),
@@ -213,7 +222,8 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
             onPressed: _save,
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14)),
             ),
             child: const Text(
               'Kaydet',
@@ -225,7 +235,8 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
     );
   }
 
-  Widget _buildProfileView(BuildContext context, UserProfile profile, MizacType? mizac) {
+  Widget _buildProfileView(
+      BuildContext context, UserProfile profile, MizacType? mizac) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -252,8 +263,13 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                 ),
                 child: Center(
                   child: Text(
-                    profile.name.isNotEmpty ? profile.name[0].toUpperCase() : '?',
-                    style: const TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w800),
+                    profile.name.isNotEmpty
+                        ? profile.name[0].toUpperCase()
+                        : '?',
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w800),
                   ),
                 ),
               ),
@@ -264,19 +280,24 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                   children: [
                     Text(
                       profile.name,
-                      style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700),
                     ),
                     if (profile.arabicName.isNotEmpty) ...[
                       const SizedBox(height: 4),
                       Text(
                         profile.arabicName,
-                        style: AppTheme.arabicTextStyle(color: Colors.white70, fontSize: 18),
+                        style: AppTheme.arabicTextStyle(
+                            color: Colors.white70, fontSize: 18),
                       ),
                     ],
                     const SizedBox(height: 4),
                     Text(
                       '${profile.gender} • ${profile.birthDate.day}/${profile.birthDate.month}/${profile.birthDate.year}',
-                      style: const TextStyle(color: Colors.white60, fontSize: 13),
+                      style:
+                          const TextStyle(color: Colors.white60, fontSize: 13),
                     ),
                   ],
                 ),
@@ -298,7 +319,8 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                   const SizedBox(width: 8),
                   Text(
                     'Mizaç: ${mizac.label}',
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -327,19 +349,30 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
       children: [
         Text(
           '🔢 Kişisel Sayılarım',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: _buildNumberCard(
-              context, '🌟', 'Yaşam Yolu', '$lifePathNumber',
+            Expanded(
+                child: _buildNumberCard(
+              context,
+              '🌟',
+              'Yaşam Yolu',
+              '$lifePathNumber',
               EbcedService.getNumberMeaning(lifePathNumber),
               AppColors.primary,
             )),
             const SizedBox(width: 10),
-            Expanded(child: _buildNumberCard(
-              context, '🔤', 'İsim Sayısı', '$turkishNum',
+            Expanded(
+                child: _buildNumberCard(
+              context,
+              '🔤',
+              'İsim Sayısı',
+              '$turkishNum',
               EbcedService.getNumberMeaning(turkishNum),
               const Color(0xFF1565C0),
             )),
@@ -348,7 +381,10 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
         if (profile.arabicName.isNotEmpty) ...[
           const SizedBox(height: 10),
           _buildNumberCard(
-            context, '☪️', 'Ebced Değeri', '$ebcedValue',
+            context,
+            '☪️',
+            'Ebced Değeri',
+            '$ebcedValue',
             EbcedService.getEbcedMeaning(ebcedValue),
             AppColors.accent,
           ),
@@ -357,7 +393,8 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
     );
   }
 
-  Widget _buildNumberCard(BuildContext context, String emoji, String label, String value, String meaning, Color color) {
+  Widget _buildNumberCard(BuildContext context, String emoji, String label,
+      String value, String meaning, Color color) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -425,9 +462,12 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Mizacını Keşfet', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                    Text('Mizacını Keşfet',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16)),
                     SizedBox(height: 4),
-                    Text('10 soruluk test ile 4 unsur mizacını öğren', style: TextStyle(fontSize: 13)),
+                    Text('10 soruluk test ile 4 unsur mizacını öğren',
+                        style: TextStyle(fontSize: 13)),
                   ],
                 ),
               ),
@@ -480,7 +520,8 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
           const SizedBox(height: 12),
           Text(
             mizac.description,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.5),
+            style:
+                Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.5),
           ),
           const SizedBox(height: 12),
           _buildMizacInfo('Esma', mizac.esma),

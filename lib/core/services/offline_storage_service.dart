@@ -26,9 +26,7 @@ class OfflineStorageService {
 
   static List<Map<String, dynamic>> getMoodEntries() {
     final box = Hive.box(moodBoxName);
-    return box.values
-        .map((e) => Map<String, dynamic>.from(e as Map))
-        .toList()
+    return box.values.map((e) => Map<String, dynamic>.from(e as Map)).toList()
       ..sort((a, b) => (b['date'] as String).compareTo(a['date'] as String));
   }
 
@@ -45,7 +43,8 @@ class OfflineStorageService {
 
   // ── Meditation ────────────────────────────────────────────────────────────
 
-  static Future<void> saveMeditationSession(Map<String, dynamic> session) async {
+  static Future<void> saveMeditationSession(
+      Map<String, dynamic> session) async {
     final box = Hive.box(meditationBoxName);
     await box.add(Map<String, dynamic>.from(session));
   }
@@ -78,7 +77,8 @@ class OfflineStorageService {
     for (final s in sessions) {
       try {
         final d = DateTime.parse(s['date'] as String);
-        dates.add('${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}');
+        dates.add(
+            '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}');
       } catch (_) {}
     }
 
@@ -87,13 +87,15 @@ class OfflineStorageService {
     int streak = 0;
     DateTime check = DateTime.now();
     // If no session today, start from yesterday
-    final todayKey = '${check.year}-${check.month.toString().padLeft(2, '0')}-${check.day.toString().padLeft(2, '0')}';
+    final todayKey =
+        '${check.year}-${check.month.toString().padLeft(2, '0')}-${check.day.toString().padLeft(2, '0')}';
     if (!dates.contains(todayKey)) {
       check = check.subtract(const Duration(days: 1));
     }
 
     while (true) {
-      final key = '${check.year}-${check.month.toString().padLeft(2, '0')}-${check.day.toString().padLeft(2, '0')}';
+      final key =
+          '${check.year}-${check.month.toString().padLeft(2, '0')}-${check.day.toString().padLeft(2, '0')}';
       if (dates.contains(key)) {
         streak++;
         check = check.subtract(const Duration(days: 1));
@@ -158,9 +160,7 @@ class OfflineStorageService {
 
   static List<Map<String, dynamic>> getDreamEntries() {
     final box = Hive.box(dreamBoxName);
-    return box.values
-        .map((e) => Map<String, dynamic>.from(e as Map))
-        .toList()
+    return box.values.map((e) => Map<String, dynamic>.from(e as Map)).toList()
       ..sort((a, b) => (b['date'] as String).compareTo(a['date'] as String));
   }
 
@@ -182,7 +182,9 @@ class OfflineStorageService {
     final today = DateTime.now().toIso8601String().substring(0, 10);
     final raw = box.get('todos_$today');
     if (raw == null) return [];
-    return (raw as List).map((e) => Map<String, dynamic>.from(e as Map)).toList();
+    return (raw as List)
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
   }
 
   static Future<void> toggleTodo(int index) async {

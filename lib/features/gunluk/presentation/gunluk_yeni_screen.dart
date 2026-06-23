@@ -38,7 +38,8 @@ class _GunlukYeniScreenState extends State<GunlukYeniScreen> {
     try {
       final now = DateTime.now();
       await OfflineStorageService.saveDreamEntry({
-        'title': _titleCtrl.text.trim().isEmpty ? 'Rüya' : _titleCtrl.text.trim(),
+        'title':
+            _titleCtrl.text.trim().isEmpty ? 'Rüya' : _titleCtrl.text.trim(),
         'content': _contentCtrl.text.trim(),
         'mood': _selectedMood,
         'symbols': _selectedSymbols.toList(),
@@ -66,10 +67,12 @@ class _GunlukYeniScreenState extends State<GunlukYeniScreen> {
             onPressed: _saving ? null : _save,
             child: _saving
                 ? const SizedBox(
-                    width: 20, height: 20,
+                    width: 20,
+                    height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Kaydet', style: TextStyle(fontWeight: FontWeight.w700)),
+                : const Text('Kaydet',
+                    style: TextStyle(fontWeight: FontWeight.w700)),
           ),
         ],
       ),
@@ -82,7 +85,8 @@ class _GunlukYeniScreenState extends State<GunlukYeniScreen> {
             const SizedBox(height: 8),
             TextField(
               controller: _titleCtrl,
-              decoration: const InputDecoration(hintText: 'Rüyaya bir isim ver...'),
+              decoration:
+                  const InputDecoration(hintText: 'Rüyaya bir isim ver...'),
             ),
             const SizedBox(height: 20),
             _buildSectionLabel('🌙 Rüya İçeriği *'),
@@ -108,7 +112,10 @@ class _GunlukYeniScreenState extends State<GunlukYeniScreen> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: selected
-                          ? Theme.of(context).colorScheme.primary.withOpacity(0.15)
+                          ? Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.15)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
@@ -142,17 +149,26 @@ class _GunlukYeniScreenState extends State<GunlukYeniScreen> {
                   return GestureDetector(
                     onTap: () => setState(() => _selectedSymbols.remove(s)),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                            color: Theme.of(context).colorScheme.primary.withOpacity(0.4)),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.4)),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(s, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+                          Text(s,
+                              style: const TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.w500)),
                           const SizedBox(width: 4),
                           const Icon(Icons.close, size: 12),
                         ],
@@ -179,7 +195,8 @@ class _GunlukYeniScreenState extends State<GunlukYeniScreen> {
                     });
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                       color: selected
                           ? const Color(0xFF37474F).withOpacity(0.15)
@@ -194,13 +211,15 @@ class _GunlukYeniScreenState extends State<GunlukYeniScreen> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(symbol.emoji, style: const TextStyle(fontSize: 14)),
+                        Text(symbol.emoji,
+                            style: const TextStyle(fontSize: 14)),
                         const SizedBox(width: 4),
                         Text(
                           symbol.symbol,
                           style: TextStyle(
                             fontSize: 12,
-                            fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
+                            fontWeight:
+                                selected ? FontWeight.w600 : FontWeight.normal,
                           ),
                         ),
                       ],
@@ -216,7 +235,8 @@ class _GunlukYeniScreenState extends State<GunlukYeniScreen> {
                 onPressed: _saving ? null : _save,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14)),
                 ),
                 child: const Text(
                   'Rüyayı Kaydet',
@@ -234,7 +254,10 @@ class _GunlukYeniScreenState extends State<GunlukYeniScreen> {
   Widget _buildSectionLabel(String text) {
     return Text(
       text,
-      style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+      style: Theme.of(context)
+          .textTheme
+          .titleMedium
+          ?.copyWith(fontWeight: FontWeight.w700),
     );
   }
 }
