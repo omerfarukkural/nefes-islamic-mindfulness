@@ -78,9 +78,10 @@ void main() {
       }
     });
 
-    test('all types have non-empty colors', () {
+    test('all types have valid colors', () {
       for (final type in MizacType.values) {
-        expect(type.color, isNotEmpty);
+        // Color.value is the ARGB int — a valid color has non-zero alpha
+        expect(type.color.alpha, equals(255));
       }
     });
 

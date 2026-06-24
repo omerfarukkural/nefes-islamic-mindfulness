@@ -42,6 +42,10 @@ class KesketScreen extends ConsumerWidget {
             const SizedBox(height: 12),
             _buildManeviAraclar(context),
             const SizedBox(height: 24),
+            _buildSectionTitle(context, '📿 Zikir & İlham'),
+            const SizedBox(height: 12),
+            _buildZikirIlham(context),
+            const SizedBox(height: 24),
             _buildSectionTitle(context, '📓 Günlük & Takip'),
             const SizedBox(height: 12),
             _buildGunlukTakip(context),
@@ -238,6 +242,35 @@ class KesketScreen extends ConsumerWidget {
         'emoji': '🌟',
         'route': '/nefs',
         'color': const Color(0xFF4A148C),
+      },
+    ];
+    return Row(
+      children: items
+          .map((item) => Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 6, left: 6),
+                  child: _buildFeatureCard(context, item),
+                ),
+              ))
+          .toList(),
+    );
+  }
+
+  Widget _buildZikirIlham(BuildContext context) {
+    final items = [
+      {
+        'title': 'Tesbihat',
+        'subtitle': 'Dijital tespih & zikir',
+        'emoji': '📿',
+        'route': '/tesbihat',
+        'color': const Color(0xFF1B5E20),
+      },
+      {
+        'title': 'İlham',
+        'subtitle': 'Ayet & hadis ilhamı',
+        'emoji': '✨',
+        'route': '/ilham',
+        'color': const Color(0xFF01579B),
       },
     ];
     return Row(

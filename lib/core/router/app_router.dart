@@ -20,6 +20,8 @@ import '../../features/icsel_alan/presentation/nefs_screen.dart';
 import '../../features/icsel_alan/presentation/esma_screen.dart';
 import '../../features/gunluk/presentation/gunluk_screen.dart';
 import '../../features/gunluk/presentation/gunluk_yeni_screen.dart';
+import '../../features/tesbihat/presentation/tesbihat_screen.dart';
+import '../../features/ilham/presentation/ilham_screen.dart';
 import '../services/offline_storage_service.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -74,6 +76,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const GunlukYeniScreen(),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/tesbihat',
+        builder: (context, state) => const TesbihatScreen(),
+      ),
+      GoRoute(
+        path: '/ilham',
+        builder: (context, state) => const IlhamScreen(),
       ),
       ShellRoute(
         builder: (context, state, child) => MainShell(

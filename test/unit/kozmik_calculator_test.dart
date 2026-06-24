@@ -22,10 +22,12 @@ void main() {
     });
 
     group('dailyEnergyNumber', () {
-      test('returns value between 1 and 9', () {
+      test('returns a numerologically valid number', () {
         final result =
             KozmikCalculator.dailyEnergyNumber(DateTime(2024, 6, 15));
-        expect(result, inInclusiveRange(1, 9));
+        // _digitSum preserves master numbers 11 and 22
+        final valid = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22];
+        expect(valid, contains(result));
       });
 
       test('different dates give valid results', () {
@@ -34,10 +36,11 @@ void main() {
           DateTime(2024, 6, 15),
           DateTime(2024, 12, 31),
         ];
+        final valid = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22];
         for (final date in dates) {
           expect(
-            KozmikCalculator.dailyEnergyNumber(date),
-            inInclusiveRange(1, 9),
+            valid,
+            contains(KozmikCalculator.dailyEnergyNumber(date)),
           );
         }
       });
